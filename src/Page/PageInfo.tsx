@@ -62,7 +62,7 @@ const pages: PageInfo[] = [
     </div>,
     effect: paintEffect,
   },
-  { type: 'fun', color: MatterTone.Black, page: KineticPage, flowerPosition: "center-right", },
+  { type: 'fun', color: MatterTone.Black, page: KineticPage, flowerPosition: "bottom-right", },
   { type: 'slate', color: MatterColor.Green, page: SlatePage, flowerPosition: "bottom-center", 
     text: <div className="full-stack text-headingHalf">
       <span>&nbsp;How did you make</span>
@@ -78,13 +78,13 @@ const pages: PageInfo[] = [
   { type: 'fun', color: MatterTone.Black, page: LetterPage, flowerPosition: "bottom-right", },
   { type: 'slate', color: MatterColor.Blue, page: SlatePage, flowerPosition: "bottom-center", 
     text: <div className="full-stack text-headingHalf">
-      <span>&nbsp;Are you 100% sure</span>
-      <span>that you touch grass?</span>
+      <span>&nbsp;How long did it take</span>
+      <span>for you to make it?</span>
     </div>,
     inner: <div className="full-stack bg-blue text-white justify-center items-center">
-      <span className="text-headingHalf">yes</span>
-      <span className="text-text">i know it seems like i dont,</span>
-      <span className="text-text">now stop asking</span>
+      <span className="text-headingHalf">4 months</span>
+      <span className="text-text">from design to creating new fonts and</span>
+      <span className="text-text">self-teaching all the tech stuff</span>
     </div>,
     effect: crossEffect,
   },

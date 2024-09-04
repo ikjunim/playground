@@ -45,12 +45,12 @@ export default function BrickField({ show }: { show: boolean }) {
     })
   }, [show]);
 
-  return <div className="w-full h-full absolute top-0 text-black p-[2svw] flex flex-col justify-start items-start text-headingHalf">
+  return <div className="w-full h-full absolute top-0 text-black p-[2svw] flex flex-col justify-start items-start">
     <div className="text-heading z-50">
       <div className="bg-transparent text-transparent pointer-events-none w-fit h-fit relative">
         1234567890
         <input ref={inputRef} className="absolute top-0 left-0 border-none outline-none bg-transparent pointer-events-auto select-auto
-          text-black w-full h-full"
+          text-black w-full h-full text-heading"
           placeholder="type here"
           maxLength={10}
           onKeyDown={handleKeyDown}

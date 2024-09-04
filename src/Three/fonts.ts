@@ -38,8 +38,6 @@ export default {
     "/Font/LaBelleAurore-Regular.ttf",
   "League Gothic":
     "/Font/LeagueGothic-Regular.ttf",
-  "PT Serif":
-    "/Font/PTSerif-Regular.ttf",
   "Space Mono":
     "/Font/SpaceMono-Regular.ttf",
   "Caveat":

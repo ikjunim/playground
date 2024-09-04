@@ -24,11 +24,6 @@ body {
   overscroll-behavior: none;
 }
 
-@font-face {
-  font-family: 'Origami';
-  src: url("/Origami.ttf") format("opentype");
-}
-
 .shadow-black {
   text-shadow: 0.3rem 0.3rem #181717;
 }
@@ -107,7 +102,8 @@ body {
   background-color: #FAF9F6;
   /* border: calc(max(6.25svw, 6.25svh)/100) solid #181717; */
   /* border: max(0.062svw, 1px) solid #181717; */
-  border: clamp(1px, calc(100svw / var(--square-count) / 100), 4px) solid #181717;
+  /* border: clamp(1px, calc(100svw / var(--square-count) / 100), 4px) solid #181717; */
+	border: 1px solid #181717;
   box-sizing: content-box;
 }
 
@@ -200,8 +196,8 @@ body {
 }
 
 .flower {
-  width: max(calc(min(12svw, 12svh) * 1), 5rem);
-  height: max(calc(min(12svw, 12svh) * 1), 5rem);
+  width: min(12svw, 12svh);
+  height: min(12svw, 12svh);
   mix-blend-mode: difference;
   transition: transform 1.1s;
 }
@@ -449,8 +445,8 @@ body {
 
 .three-arrow-container {
   @apply absolute top-1/2 -translate-y-1/2 flex flex-col justify-center;
-  width: min(10svw, 10rem);
-  height: min(10svw, 10rem);
+  width: min(7.5svw, 7.5rem);
+  height: min(7.5svw, 7.5rem);
 }
 
 .three-arrow {

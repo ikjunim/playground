@@ -1,12 +1,11 @@
 import { animate } from "@juliangarnierorg/anime-beta";
 import { useMemo, useRef } from "react";
-import { ReadOnlyRefObject } from "react-usestateref";
 import { desc, duration } from "./KineticUtility";
 
 interface KineticSliderProps {
   setLevel: React.Dispatch<React.SetStateAction<number>>;
   level: number;
-  levelRef: ReadOnlyRefObject<number>;
+  levelRef: any;
   animatingRef: React.MutableRefObject<boolean>;
 }
 

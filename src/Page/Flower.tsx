@@ -8,7 +8,7 @@ const petalCount = 12;
 let targetPosition = { x: 0, y: 0 };
 let mousePosition = { x: 0, y: 0 };
 let currentPosition = { x: 0, y: 0 };
-let speed = 0.04, followMouse = true;
+let speed = 0.06, followMouse = true;
 const mouseSupport = hasMouseSupport();
 
 let curActive = 0;
@@ -51,9 +51,9 @@ export default function Flower({ squareEffect, active }: FlowerProps) {
     curActive = active;
   }, [active]);
 
-  const timerMemo = useMemo(() => {
+  const buttonFollowTimer = useMemo(() => {
     return createTimer({
-      frameRate: 24,
+      frameRate: 30,
       onUpdate: () => {
         const rect = buttonRef.current!.getBoundingClientRect();
         targetPosition.x = rect.x + rect.width/2;
@@ -63,10 +63,23 @@ export default function Flower({ squareEffect, active }: FlowerProps) {
     })
   }, []);
 
+	const mouseFollowTimer = useMemo(() => {
+		return createTimer({
+			frameRate: 60,
+			onUpdate: () => {
+				currentPosition.x = currentPosition.x + (targetPosition.x - currentPosition.x) * speed;
+    		currentPosition.y = currentPosition.y + (targetPosition.y - currentPosition.y) * speed;
+
+    		flowerRef.current!.style.transform = "translate(" + currentPosition.x + "px, " + currentPosition.y + "px)";
+			},
+			autoplay: false,
+		})
+	}, []);
+
   const handleEnter = () => {
     if (!mouseSupport) return;
     followMouse = false;
-    timerMemo.play();
+    buttonFollowTimer.play();
     petalRef.current!.classList.add('expanded');
     petalRef.current!.classList.remove('contracted');
   }
@@ -74,7 +87,7 @@ export default function Flower({ squareEffect, active }: FlowerProps) {
   const handleLeave = () => {
     if (!mouseSupport) return;
     followMouse = true;
-    timerMemo.pause();
+    buttonFollowTimer.pause();
     petalRef.current!.classList.remove('expanded');
     petalRef.current!.classList.add('contracted');
 
@@ -92,27 +105,17 @@ export default function Flower({ squareEffect, active }: FlowerProps) {
     }
   }
 
-  const lerpFlower = () => {
-    currentPosition.x = currentPosition.x + (targetPosition.x - currentPosition.x) * speed;
-    currentPosition.y = currentPosition.y + (targetPosition.y - currentPosition.y) * speed;
-
-    flowerRef.current!.style.transform = "translate(" + currentPosition.x + "px, " + currentPosition.y + "px)";
-
-    requestAnimationFrame(lerpFlower);
-  }
-
   useEffect(() => {
-    var id = 0;
     if (mouseSupport) {
       flowerRef.current!.style.transform = "translate(0px, 0px)";
       window.addEventListener('mousemove', handleMouseMove);
-      id = requestAnimationFrame(lerpFlower);
+			mouseFollowTimer.play();
     }
 
     return () => {
       if (mouseSupport) {
         window.removeEventListener('mousemove', handleMouseMove);
-        cancelAnimationFrame(id);
+				mouseFollowTimer.pause();
       }
     }
   }, []);
@@ -132,8 +135,8 @@ export default function Flower({ squareEffect, active }: FlowerProps) {
   const navMemo = useMemo(() => {
     return Array.from({ length: pages.length }, (_, i) => {
       return <button key={i} ref={el => navRef.current.push(el)} 
-        className="border-none outline-none font-mono w-max h-max text-[#ffffff]" 
-        onClick={(e) => handleNavClick(e, i)} style={{ transform: 'translateY(-10svh)'}}>
+        className="border-none outline-none text-slate font-mono w-max h-max text-[#ffffff]" 
+        onClick={(e) => handleNavClick(e, i)} style={{ transform: 'translateY(-5em)'}}>
         {i+1}
       </button>
     });
@@ -145,7 +148,7 @@ export default function Flower({ squareEffect, active }: FlowerProps) {
         translateY: 0,
         duration: 600,
         delay: stagger(50),
-        ease: 'outBack(4)'
+        ease: 'outBack(2)'
       })
       // localStorage.setItem('lapped', 'false');
     }

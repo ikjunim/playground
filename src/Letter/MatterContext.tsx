@@ -38,6 +38,7 @@ export default function MatterContextProvider({ children, containerRef, active, 
   const handleResize = () => {
     if (instance) instance.resize();
     if (cloud) cloud.repositionWalls();
+		if (foundry) foundry.updateWrap();
   };
 
   const handleMouseMove = (event: MouseEvent) => {
@@ -68,17 +69,19 @@ export default function MatterContextProvider({ children, containerRef, active, 
       cloud!.applyForce(mousePosition.x, mousePosition.y);
     });
 
+		const mc = instance.mouse();
+
     window.addEventListener("resize", handleResize);
     window.addEventListener("mousemove", handleMouseMove);
 
-    Matter.Events.on(instance.mouseConstraint, 'mousedown', () => {
+    Matter.Events.on(mc, 'mousedown', () => {
       document.getElementById('idea-field')?.blur();
     });
 
     return () => {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("mousemove", handleMouseMove);
-      if(instance) instance.clear();
+      if (instance) instance.clear();
     }
   }, []);
 

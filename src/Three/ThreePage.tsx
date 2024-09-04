@@ -257,7 +257,7 @@ function Cloud({ index, active, ready, pageNumber }: { index: number, active: nu
     </group>
 
     return res;
-  }, [ready]);
+  }, [loadedRef.current]);
 
   const idleAnimation = useMemo(() => {
     if (!cloudRef.current) return null;

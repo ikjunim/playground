@@ -2,7 +2,7 @@ import { Application, Text, TextStyle } from "pixi.js";
 import MatterTone from "../Constants/MatterTone";
 import Image from "image-js";
 import { nthSubstring, rgbToHex } from "../Utility";
-import { Timer, animate, createTimer, stagger } from "@juliangarnierorg/anime-beta";
+import { Timer, animate, createTimer, stagger, utils } from "@juliangarnierorg/anime-beta";
 import { lzw_encode, lzw_decode } from "../Utility";
 
 const loadFrames = false;
@@ -86,7 +86,7 @@ export class Painter {
           text: pixelText.charAt(i % pixelText.length),
           style: new TextStyle({
             fontFamily: 'Azeret Mono',
-            fontSize: 36,
+            fontSize: 2.3*parseFloat(utils.get(container, 'font-size', 'px')),
             fill: 'white',
           }),
         });

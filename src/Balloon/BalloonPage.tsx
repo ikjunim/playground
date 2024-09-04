@@ -8,10 +8,11 @@ import MatterCategory from "../Constants/MatterCategory";
 import useState from "react-usestateref";
 import BrickField from "./BrickField";
 import { Brick } from "../Matter/Party";
-import { randomInt, randomFloat } from "../Utility";
+import { randomFloat } from "../Utility";
 import PageInterface from "../Page/PageInterface";
 
 const spikeCount = 100;
+var spawnedBalloonCount = 0;
 
 const randomBalloonCount = () => {
   // return randomInt(5, 5);
@@ -95,17 +96,19 @@ export default function BalloonPage({ containerRef, pageNumber }: PageInterface)
         if (pairs[i].bodyA.id === party.trampolineId) party.bounceBrick(pairs[i].bodyB.id);
         else if (pairs[i].bodyB.id === party.trampolineId) party.bounceBrick(pairs[i].bodyA.id);
       }
-    })  
+    })
 
-    Matter.Events.on(instance.mouseConstraint, 'mousedown', (e) => {
-      if (instance.mouseConstraint.body) {
-        clickedId = instance.mouseConstraint.body.id;
+		const mc = instance.mouse();
+
+    Matter.Events.on(mc, 'mousedown', (e) => {
+      if (mc.body) {
+        clickedId = mc.body.id;
         clickedPosition = { x: e.mouse.position.x, y: e.mouse.position.y };
       } else clickedId = -1;
     });
 
-    Matter.Events.on(instance.mouseConstraint, 'mouseup', (e) => {
-      if (clickedId != -1 && Math.abs(e.mouse.position.x - clickedPosition.x) < 20 && Math.abs(e.mouse.position.y - clickedPosition.y) < 20) {
+    Matter.Events.on(mc, 'mouseup', (e) => {
+      if (clickedId != -1 && Math.abs(e.mouse.position.x - clickedPosition.x) < 15 && Math.abs(e.mouse.position.y - clickedPosition.y) < 15) {
         party.despawnBalloon(clickedId);
       }
     });
@@ -160,7 +163,7 @@ export default function BalloonPage({ containerRef, pageNumber }: PageInterface)
       textRef.current.forEach((text, i) => {
         if (i < res.length) return;
         res.push(<div
-          key={crypto.randomUUID()}
+          key={spawnedBalloonCount++}
           className="party-brick text-headingHalf"
           ref={el => divelRef.current.push(el)}
           style={{

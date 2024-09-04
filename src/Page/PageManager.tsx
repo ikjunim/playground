@@ -9,14 +9,14 @@ import Flower from './Flower';
 import pages from './PageInfo';
 import RevealPage from '../Reveal/RevealPage';
 
-const skipLoading = true;
+const skipLoading = false;
 const maxRadius = { value: 0 };
 var rippleAnime: Animation | null = null;
 const maskPosition = {
   x: 0,
   y: 0,
   xPercent: 0,
-  yPercent: 0,
+	yPercent: 0,
 }
 var needMaskResize = false;
 
@@ -137,11 +137,11 @@ export default function PageManager() {
           onComplete: () => {
              if (i === rows.length - 1 && j === arr.length - 1) {
               squareRef.current.forEach(el => el!.style.transform = 'translateX(0) rotate(0)')
-              // ripple(0, 0, 0);
-              setReady(0);
-              setActive(0);
+              ripple(0, 0, 0);
+              // setReady(0);
+              // setActive(0);
               loadingRef.current!.style.display = 'none';
-              blockerRef.current!.style.pointerEvents = 'none';
+              // blockerRef.current!.style.pointerEvents = 'none';
             }
           }
         })

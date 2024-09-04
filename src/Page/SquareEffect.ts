@@ -57,7 +57,6 @@ export const rippleEffect = (targets: HTMLDivElement[], index: number,
   return anim;
 }
 
-
 let jumpScale = 0.8;
 export const waterEffect = (targets: HTMLDivElement[], x: number, y: number) => {
   if (animating) return null;
@@ -291,7 +290,6 @@ export const holeEffect = (targets: HTMLDivElement[], indexes: number[], holes: 
   })
 
   shuffle(indexes);
-  console.log(indexes);
   var counter = 0;
   const timer = createTimer({
     duration: punchDuration + 10,

@@ -49,7 +49,7 @@ export default function SlatePage({ text, inner, tutorial, empty, squareEffect, 
   }, [ready]);
 
   const slateMemo = useMemo(() => {
-    return <div className="w-full h-full flex justify-center items-center pointer-events-auto text-slate bg-transparent" onClick={handleOnClick}>
+    return <div className="w-svw h-svh flex justify-center items-center pointer-events-auto text-slate bg-transparent" onClick={handleOnClick}>
       {
         !empty &&
         <div className="party-brick relative z-10 no-select single-grid">
