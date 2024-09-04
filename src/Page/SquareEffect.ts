@@ -7,7 +7,7 @@ import { interpolateColor, rgbToHex, shuffle } from '../Utility';
 //This is for the ripple effect
 const fastTransition = false;
 //This is how long the animation takes
-const squareDuration = 200;
+const squareDuration = 300;
 //This is how long the animation waits before starting
 //The four controls the 'length' of the frontier
 const squareSpeed = fastTransition ? 10 : squareDuration/4;

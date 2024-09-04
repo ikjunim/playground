@@ -76,7 +76,7 @@ export const charBounce = (targets: HTMLSpanElement[], initialDrop: number, boun
         if (--count === 0) {
           setTimeout(() => {
             onComplete();
-          }, 100);
+          }, 200);
         }
         charCol.forEach((el, i) => {
           setTimeout(() => {

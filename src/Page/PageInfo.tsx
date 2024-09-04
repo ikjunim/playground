@@ -83,8 +83,8 @@ const pages: PageInfo[] = [
     </div>,
     inner: <div className="full-stack bg-blue text-white justify-center items-center">
       <span className="text-headingHalf">4 months</span>
-      <span className="text-text">from design to creating new fonts and</span>
-      <span className="text-text">self-teaching all the tech stuff</span>
+      <span className="text-text">this website took shorter than expected</span>
+      <span className="text-text">but the result was more than i expected</span>
     </div>,
     effect: crossEffect,
   },

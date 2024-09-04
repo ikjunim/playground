@@ -66,7 +66,7 @@ export default function RevealPage({ active, pageNumber, immediateEffect } : Rev
             <span>playground</span>
             <span>no socials</span>
             <span>based in Sydney</span>
-            <span className="pointer-events-auto yes-select">ikjunim@gmail.com</span>
+            <span>ikjunim@gmail.com</span>
           </div>
         </div>
       </div>
@@ -76,9 +76,8 @@ export default function RevealPage({ active, pageNumber, immediateEffect } : Rev
   const noteMemo = useMemo(() => {
     return <div className="absolute top-0 w-full h-full flex justify-start items-end font-caveat text-white text-text">
       <div className="w-max h-max">
-        Here's a secret: <br/>
-        This is my 2nd time <br/>
-        making a website <br/>
+        my favourite page is <br/>
+        the one with the letters <br/>
       </div>
     </div>
   }, []);
