@@ -1,6 +1,6 @@
 import { shuffle } from "../Utility";
 
-export const squareCount = 14;
+export const squareCount = 16;
 export const maxSquareIndex = squareCount * squareCount;
 const squareLength = { current: 10000 };
 

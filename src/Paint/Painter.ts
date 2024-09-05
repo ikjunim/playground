@@ -73,7 +73,7 @@ export class Painter {
 
       this.app = app;
 
-      await app.init({ resizeTo: container, backgroundAlpha: 0 });
+      await app.init({ resizeTo: container, backgroundAlpha: 0, resolution: window.devicePixelRatio });
       container.appendChild(app.canvas);
 
       const width = container.clientWidth;

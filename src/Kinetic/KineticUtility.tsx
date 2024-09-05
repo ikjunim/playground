@@ -22,6 +22,6 @@ export const desc = [
     I let curiosity take the wheel <br/> because it can lead to some...
   </>,
   <>
-    Mesmerising <br/> effects
+    Mesmerizing <br/> effects
   </>,
 ]

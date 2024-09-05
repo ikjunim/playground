@@ -257,7 +257,6 @@ export class Balloon {
 
     this.constraint = Matter.Constraint.create({
       bodyA: brick.body,
-      // pointA: scaleVector(rotateVector(this.anchor, this.brick.body.angle), this.brick.width * 0.4),
       bodyB: this.body,
       pointB: { x: 0, y: this.radius },
       stiffness: stringStiffness,
@@ -280,7 +279,6 @@ export class Balloon {
     this.radius = this.brick.height * ballonRadius;
     Matter.Body.setMass(this.body, balloonMass);
     this.constraint.length = this.brick.height + this.radius * 2 * this.stringExtension;
-    // this.constraint.pointA = scaleVector(rotateVector(this.anchor, this.brick.body.angle), this.brick.width * 0.4);
     this.constraint.pointB = { x: 0, y: this.radius };
   }
 }

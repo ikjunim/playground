@@ -74,7 +74,7 @@ export default function RevealPage({ active, pageNumber, immediateEffect } : Rev
   }, []);
 
   const noteMemo = useMemo(() => {
-    return <div className="absolute top-0 w-full h-full flex justify-start items-end font-caveat text-white text-text">
+    return <div className="absolute top-0 w-full h-full flex justify-start items-end font-mono text-white text-text">
       <div className="w-max h-max">
         my favourite page is <br/>
         the one with the letters <br/>

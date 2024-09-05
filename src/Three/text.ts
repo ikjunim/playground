@@ -21,19 +21,19 @@ const commonTextOption = {
 }
 
 const titleString = [
-  "Developer", //ThreePage (this one)
-  "Extrovert", //BalloonPage (cuz i dont get invited to parties so i made my own)
-  "Magician", //LetterPage (cuz i turn their ideas into a reality)
-  "Artist", //PaintPage (cuz im gonna paint using only code)
-  "Explorer" //KineticPage (cuz i literally dont know what i was gonna do with this page)
+  "Developer",
+  "Extrovert",
+  "Magician",
+  "Artist",
+  "Explorer"
 ];
 
 const textString = [
   "Pursuing Frontend\nReact, Three, Vite",
-  "No, I don't stay home all day\nI go outside and touch grass",
-  "If you can dream it\nI can code it",
+  "I know it looks like it, but\nI'm not a shut-in, I touch grass",
+  "If you have an idea\nI can turn it into reality",
   "Artists use a brush\nI use a keyboard",
-  "I'm not lost\nI just let curiosity take the wheel"
+  "I go wherever\nMy curiosity takes me"
 ]
 
 export const title = [

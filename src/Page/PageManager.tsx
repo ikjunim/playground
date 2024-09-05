@@ -9,7 +9,7 @@ import Flower from './Flower';
 import pages from './PageInfo';
 import RevealPage from '../Reveal/RevealPage';
 
-const skipLoading = false;
+const skipLoading = true;
 const maxRadius = { value: 0 };
 var rippleAnime: Animation | null = null;
 const maskPosition = {
@@ -49,15 +49,6 @@ export default function PageManager() {
       window.innerHeight
     )
 
-    /* const speed = 1000*squareRef.current[index]!.clientWidth * 0.8/squareSpeed;
-    var i = 0;
-    const timer = createTimer({
-      frameRate: 60,
-      onUpdate: () => {
-        curBlack?.setAttribute('r', i * speed/60 + '');
-        curWhite?.setAttribute('r', i++ * speed/60 + '');
-      }
-    }) */
     rippleAnime = rippleEffect(squareRef.current, index, pages[target].color, () => {
       setReady(target);
       curBlack?.setAttribute('cx', `${maskPosition.x}`);
@@ -65,13 +56,12 @@ export default function PageManager() {
       curWhite?.setAttribute('cx', `${maskPosition.x}`);
       curWhite?.setAttribute('cy', `${maskPosition.y}`);
       blockerRef.current!.style.pointerEvents = 'all';
-      // timer.play();
     }, (anim) => {
       curBlack?.setAttribute('r', `${dist * anim.progress}`);
       curWhite?.setAttribute('r', `${dist * anim.progress}`);
     }, () => {
-      // timer.pause();
       curBlack?.setAttribute('r', '0');
+			curWhite?.setAttribute('r', `${dist}`);
       whiteMask.current[activeRef.current]?.setAttribute('r', '0');
       setActive(target);
       blockerRef.current!.style.pointerEvents = 'none';
@@ -109,10 +99,12 @@ export default function PageManager() {
   const clipMemo = useMemo(() => {
     return Array.from({ length: pages.length }, (_, i) => {
       return <svg key={i} className='absolute' xmlns="http://www.w3.org/2000/svg">
-        <mask id={`page-clip-${i + 1}`}>
-          <circle ref={(element) => whiteMask.current.push(element)} cx="0" cy="0" r="0" fill="white"/>
-          <circle ref={(element) => blackMask.current.push(element)} cx="0" cy="0" r="0" fill="black"/>
-        </mask>
+        <defs>
+					<mask id={`page-clip-${i + 1}`}>
+						<circle ref={(element) => whiteMask.current.push(element)} cx="0" cy="0" r="0" fill="white"/>
+						<circle ref={(element) => blackMask.current.push(element)} cx="0" cy="0" r="0" fill="black"/>
+					</mask>
+				</defs>
       </svg>
     });
   }, []);
@@ -137,11 +129,11 @@ export default function PageManager() {
           onComplete: () => {
              if (i === rows.length - 1 && j === arr.length - 1) {
               squareRef.current.forEach(el => el!.style.transform = 'translateX(0) rotate(0)')
-              ripple(0, 0, 0);
-              // setReady(0);
-              // setActive(0);
+              // ripple(0, 0, 0);
+              setReady(0);
+              setActive(0);
               loadingRef.current!.style.display = 'none';
-              // blockerRef.current!.style.pointerEvents = 'none';
+              blockerRef.current!.style.pointerEvents = 'none';
             }
           }
         })

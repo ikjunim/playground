@@ -26,7 +26,7 @@ export default function LetterPage({ containerRef, pageNumber }: PageInterface) 
   return <div className="w-full h-full">
     <div ref={matterContainerRef} className="absolute top-0 w-full h-full"/>
     {loaded && 
-      <MatterContextProvider containerRef={matterContainerRef} active={active} ready={active} pageNumber={pageNumber}>
+      <MatterContextProvider containerRef={matterContainerRef} active={active} ready={ready} pageNumber={pageNumber}>
         <IdeaField pageNumber={pageNumber}/>
       </MatterContextProvider>
     }

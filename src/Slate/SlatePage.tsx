@@ -49,14 +49,14 @@ export default function SlatePage({ text, inner, tutorial, empty, squareEffect, 
   }, [ready]);
 
   const slateMemo = useMemo(() => {
-    return <div className="w-svw h-svh flex justify-center items-center pointer-events-auto text-slate bg-transparent" onClick={handleOnClick}>
+    return <div className="w-svw h-svh flex justify-center items-center pointer-events-auto text-slate" onClick={handleOnClick}>
       {
         !empty &&
-        <div className="party-brick relative z-10 no-select single-grid">
-          <div className="span-grid relative">
+        <div className="party-brick no-select single-grid">
+          <div className="span-grid h-max w-max">
             {text}
           </div>
-          <div ref={foldRef} className="overflow-hidden span-grid relative z-10 fold-contracted" onClick={handleFoldClick}>
+          <div ref={foldRef} className="span-grid overflow-hidden fold-contracted" onClick={handleFoldClick}>
             {inner}
           </div>
           {foldTutorial &&
