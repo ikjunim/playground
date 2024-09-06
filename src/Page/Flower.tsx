@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { hasMouseSupport } from "../Utility";
+import { hasMouse } from "../Utility";
 import pages from "./PageInfo";
-import { animate, stagger, Animation, Timeline, createTimer } from "@juliangarnierorg/anime-beta";
+import { animate, stagger, Animation, Timer, createTimer, spring } from "@juliangarnierorg/anime-beta";
 
 const petalCount = 12;
 
@@ -9,18 +9,18 @@ let targetPosition = { x: 0, y: 0 };
 let mousePosition = { x: 0, y: 0 };
 let currentPosition = { x: 0, y: 0 };
 let speed = 0.06, followMouse = true;
-const mouseSupport = hasMouseSupport();
 
 let curActive = 0;
 const flowerPosition = pages.map(page => page.flowerPosition);
 let prevPosition = flowerPosition[0];
 
 interface FlowerProps {
-  squareEffect: (x: number, y: number, type: "next" | number) => Animation | Timeline | null,
+  squareEffect: (x: number, y: number, type: "next" | number) => Animation | Timer | null,
   active: number,
+  ready: number,
 }
 
-export default function Flower({ squareEffect, active }: FlowerProps) {
+export default function Flower({ squareEffect, active, ready }: FlowerProps) {
   const lappedString = localStorage.getItem('lapped');
   if (lappedString === null) localStorage.setItem('lapped', 'false');
   const [lapped, setLapped] = useState(lappedString ? lappedString === 'true' : false);
@@ -64,6 +64,7 @@ export default function Flower({ squareEffect, active }: FlowerProps) {
   }, []);
 
 	const mouseFollowTimer = useMemo(() => {
+    if (!hasMouse) return null;
 		return createTimer({
 			frameRate: 60,
 			onUpdate: () => {
@@ -77,7 +78,7 @@ export default function Flower({ squareEffect, active }: FlowerProps) {
 	}, []);
 
   const handleEnter = () => {
-    if (!mouseSupport) return;
+    if (!hasMouse) return;
     followMouse = false;
     buttonFollowTimer.play();
     petalRef.current!.classList.add('expanded');
@@ -85,7 +86,7 @@ export default function Flower({ squareEffect, active }: FlowerProps) {
   }
 
   const handleLeave = () => {
-    if (!mouseSupport) return;
+    if (!hasMouse) return;
     followMouse = true;
     buttonFollowTimer.pause();
     petalRef.current!.classList.remove('expanded');
@@ -96,7 +97,7 @@ export default function Flower({ squareEffect, active }: FlowerProps) {
   }
 
   const handleMouseMove = (e: MouseEvent) => {
-    if (!mouseSupport) return;
+    if (!hasMouse) return;
     mousePosition.x = e.clientX;
     mousePosition.y = e.clientY;
     if (followMouse) {
@@ -106,16 +107,16 @@ export default function Flower({ squareEffect, active }: FlowerProps) {
   }
 
   useEffect(() => {
-    if (mouseSupport) {
+    if (hasMouse) {
       flowerRef.current!.style.transform = "translate(0px, 0px)";
       window.addEventListener('mousemove', handleMouseMove);
-			mouseFollowTimer.play();
+			mouseFollowTimer?.play();
     }
 
     return () => {
-      if (mouseSupport) {
+      if (hasMouse) {
         window.removeEventListener('mousemove', handleMouseMove);
-				mouseFollowTimer.pause();
+				mouseFollowTimer?.pause();
       }
     }
   }, []);
@@ -135,7 +136,7 @@ export default function Flower({ squareEffect, active }: FlowerProps) {
   const navMemo = useMemo(() => {
     return Array.from({ length: pages.length }, (_, i) => {
       return <button key={i} ref={el => navRef.current.push(el)} 
-        className="border-none outline-none text-slate font-mono w-max h-max text-[#ffffff]" 
+        className="border-none outline-none text-nav font-mono w-[1.5em] inline-flex justify-center items-center h-max text-[#ffffff] mix-blend-difference" 
         onClick={(e) => handleNavClick(e, i)} style={{ transform: 'translateY(-5em)'}}>
         {i+1}
       </button>
@@ -158,13 +159,27 @@ export default function Flower({ squareEffect, active }: FlowerProps) {
     }
   }, [active, lapped]);
 
+  const ballRef = useRef<HTMLDivElement>(null);
+  const ballMemo = useMemo(() => {
+    return <div ref={ballRef} className="absolute bottom-0 left-0 text-nav bg-white w-[1.5em] h-full nav-ball"/>
+  }, []);
+
+  useEffect(() => {
+    if (ready < 0) return;
+    animate(ballRef.current!, {
+      translateX: `${(ready) * 1.5}em`,
+      ease: spring(1, 100, 11),
+    })
+  }, [ready]);
+
   return <>
     {buttonMemo}
     <div className='absolute top-[5svh] right-1/2 translate-x-1/2 max-w-[20000px] 
-      w-max h-max flex text-slate gap-[0.5em] z-[1000] mix-blend-difference'>
+      w-max h-max z-[1000] mix-blend-difference'>
+      {ballMemo}
       {navMemo}
     </div>
-    <div ref={flowerRef} className="absolute petal-container pointer-events-none select-none z-[1000]">
+    {hasMouse && <div ref={flowerRef} className="absolute petal-container pointer-events-none select-none z-[1000]">
       <div className="w-full h-full relative -translate-x-1/2 -translate-y-1/2">
         <div ref={petalRef} className="rotate-full w-full h-full contracted">
           {
@@ -172,7 +187,7 @@ export default function Flower({ squareEffect, active }: FlowerProps) {
           }
         </div>
       </div>
-    </div>
+    </div>}
   </>
 }
 

@@ -8,7 +8,7 @@ export default {
     extend: {},
     fontFamily: {
       sans: ['Raleway', 'sans-serif'],
-      serif: ['Lora', 'serif'],
+      serif: ['DM Serif', 'serif'],
       mono: ['Azeret Mono', 'monospace'],
     },
     colors: {
@@ -22,10 +22,14 @@ export default {
     },
     fontSize: {
       heading: 'clamp(0rem, 4svw + 1rem, 8rem)',
-      headingHalf: 'clamp(0rem, 2svw + 0.5rem, 4rem)',
+      headingHalf: 'clamp(0rem, 2svw + 1rem, 4rem)',
+      brick: 'clamp(0rem, 3svw + 1rem, 4rem)',
       slate: 'clamp(0rem, 2svw + 0.5rem, 3rem)',
-      text: 'clamp(0rem, 0.75svw + 0.5rem, 2rem)',
-      idea: 'clamp(0rem, 2.5svw + 0.6rem, 5rem)',
+      text: 'clamp(0rem, 1svw + 0.5rem, 2rem)',
+      tiny: 'clamp(0rem, 0.5svw + 0.2rem, 1rem)',
+      idea: 'clamp(0rem, 2.5svw + 0.8rem, 4rem)',
+      brick: 'clamp(0rem, min(3svw,3svh) + 1rem, 3rem)',
+      nav: 'clamp(0rem, 2svw + 0.8rem, 3rem)',
       ideaHalf: 'clamp(0rem, 1svw + 0.3rem, 2.5rem)',
       kinetic: 'clamp(0rem, 10svh + 2rem, 20svw)',
     },

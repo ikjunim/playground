@@ -7,11 +7,11 @@ export default class MatterInstance {
   render: Matter.Render;
   runner: Matter.Runner;
   running: boolean = false;
-	filter: {category: number, mask: number} | undefined;
+  mouse: Matter.Mouse;
+  constraint: Matter.MouseConstraint;
 
   constructor(container : HTMLElement, filter?: {category: number, mask: number, fast?: boolean}) {
     this.container = container;
-		this.filter = filter;
     this.engine = Matter.Engine.create({
       gravity: {x: 0, y: 0},
       timing: {
@@ -29,10 +29,39 @@ export default class MatterInstance {
         wireframes: false,
         showAngleIndicator: false,
         showDebug: false,
+        pixelRatio: window.devicePixelRatio
       }
     });
 
     this.runner = Matter.Runner.create();
+
+    this.mouse = Matter.Mouse.create(this.render.canvas);
+    this.mouse.pixelRatio = window.devicePixelRatio;
+
+    this.constraint = Matter.MouseConstraint.create(this.engine, {
+      mouse: this.mouse,
+      constraint: {
+        stiffness: 0.1,
+        damping: 0.1,
+        render: {
+          visible: false
+        }
+      },
+      collisionFilter: {
+        category: filter ? filter.category : MatterCategory.Default,
+        mask: filter ? filter.mask : MatterCategory.Default,
+      },
+    });
+
+    //@ts-ignore
+    this.constraint.mouse.element.removeEventListener("mousewheel", this.constraint.mouse.mousewheel);
+    //@ts-ignore
+    this.constraint.mouse.element.removeEventListener("DOMMouseScroll", this.constraint.mouse.mousewheel);
+
+    this.render.mouse = this.mouse;
+
+    Matter.Composite.add(this.engine.world, this.constraint);
+    this.container.style.pointerEvents = 'auto';
   }
 
   run() {
@@ -62,40 +91,9 @@ export default class MatterInstance {
     this.render.options.height = this.container.clientHeight;
     this.render.canvas.width = this.container.clientWidth;
     this.render.canvas.height = this.container.clientHeight;
-		this.render.canvas.style.width = this.container.clientWidth + 'px';
-		this.render.canvas.style.height = this.container.clientHeight + 'px';
     Matter.Render.setPixelRatio(this.render, window.devicePixelRatio);
+    this.mouse.pixelRatio = window.devicePixelRatio;
   }
-
-	mouse() {
-		const m = Matter.Mouse.create(this.render.canvas);
-
-    const mc = Matter.MouseConstraint.create(this.engine, {
-      mouse: m,
-      constraint: {
-        stiffness: 0.1,
-        damping: 0.1,
-        render: {
-          visible: false
-        }
-      },
-      collisionFilter: {
-        category: this.filter ? this.filter.category : MatterCategory.Default,
-        mask: this.filter ? this.filter.mask : MatterCategory.Default,
-      },
-    });
-
-    //@ts-ignore
-    mc.mouse.element.removeEventListener("mousewheel", mc.mouse.mousewheel);
-    //@ts-ignore
-    mc.mouse.element.removeEventListener("DOMMouseScroll", mc.mouse.mousewheel);
-
-    this.render.mouse = m;
-
-		Matter.Composite.add(this.engine.world, mc);
-		this.container.style.pointerEvents = 'auto';
-		return mc;
-	}
 
   width() {
     return parseInt(this.render.canvas.style.width);

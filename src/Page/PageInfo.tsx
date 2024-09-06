@@ -8,10 +8,12 @@ import MatterTone from "../Constants/MatterTone";
 import { waterEffect, sunflowerEffect, shootEffect, crossEffect, paintEffect, punchEffect } from "./SquareEffect";
 import { Animation, Timeline } from "@juliangarnierorg/anime-beta";
 import MatterColor from "../Constants/MatterColor";
+import { isMobile } from '../Utility';
 
 interface PageInfo {
   type: 'fun' | 'slate';
-  color: string;
+  color: string; //hex
+  bg: string; //tailwind
   page: React.FC<any>;
   text?: JSX.Element;
   inner?: JSX.Element;
@@ -22,22 +24,27 @@ interface PageInfo {
 }
 
 const pages: PageInfo[] = [
-  { type: 'slate', color: MatterTone.White, page: SlatePage, flowerPosition: "bottom-center",
+  { type: 'slate', color: MatterTone.White, bg: 'white', page: SlatePage, flowerPosition: "bottom-center",
     text: <div className="full-stack items-center">
       <span className="text-heading">playground</span>
       <span className="text-headingHalf">ikjunim@gmail.com</span>
       <span className="text-text">laptop is recommended</span>
     </div>,
-    inner: <div className="full-stack bg-black text-white items-center justify-center text-text">
-      <span className="text-headingHalf">press on the grid</span>
-      <span className="text-headingHalf">(on the squares)</span>
-      <span>press here again to hide</span>
-    </div>,
+    inner: isMobile ? 
+      <div className="full-stack bg-black text-white items-center justify-center text-text">
+        <span className="text-headingHalf">press here</span>
+        <span className="text-headingHalf">again to hide</span>
+      </div> : 
+      <div className="full-stack bg-black text-white items-center justify-center text-text">
+        <span className="text-headingHalf">press on the grid</span>
+        <span className="text-headingHalf">(on the squares)</span>
+        <span>press here again to hide</span>
+      </div>,
     effect: waterEffect,
     tutorial: true,
   },
-  { type: 'fun', color: MatterTone.Black, page: ThreePage, flowerPosition: "bottom-right", },
-  { type: 'slate', color: MatterColor.Red, page: SlatePage, flowerPosition: "bottom-center", 
+  { type: 'fun', color: MatterTone.Black, bg: 'black', page: ThreePage, flowerPosition: "bottom-right", },
+  { type: 'slate', color: MatterColor.Red, bg: 'red', page: SlatePage, flowerPosition: "bottom-center", 
     text: <div className="full-stack text-headingHalf">
       <span>&nbsp;what's the purpose</span>
       <span>of this website?</span>
@@ -49,8 +56,8 @@ const pages: PageInfo[] = [
     </div>,
     effect: shootEffect,
   },
-  { type: 'fun', color: MatterTone.White, page: BalloonPage, flowerPosition: "top-right", },
-  { type: 'slate', color: MatterColor.Yellow, page: SlatePage, flowerPosition: "bottom-center",
+  { type: 'fun', color: MatterTone.White, bg: 'white', page: BalloonPage, flowerPosition: "top-right", },
+  { type: 'slate', color: MatterColor.Yellow, bg: 'yellow', page: SlatePage, flowerPosition: "bottom-center",
     text: <div className="full-stack text-headingHalf">
       <span>&nbsp;what's the inspiration</span>
       <span>behind the website?</span>
@@ -62,8 +69,8 @@ const pages: PageInfo[] = [
     </div>,
     effect: paintEffect,
   },
-  { type: 'fun', color: MatterTone.Black, page: KineticPage, flowerPosition: "bottom-right", },
-  { type: 'slate', color: MatterColor.Green, page: SlatePage, flowerPosition: "bottom-center", 
+  { type: 'fun', color: MatterTone.Black, bg: 'black', page: KineticPage, flowerPosition: "bottom-right", },
+  { type: 'slate', color: MatterColor.Green, bg: 'green', page: SlatePage, flowerPosition: "bottom-center", 
     text: <div className="full-stack text-headingHalf">
       <span>&nbsp;How did you make</span>
       <span>the website?</span>
@@ -75,8 +82,8 @@ const pages: PageInfo[] = [
     </div>,
     effect: sunflowerEffect,
   },
-  { type: 'fun', color: MatterTone.Black, page: LetterPage, flowerPosition: "bottom-right", },
-  { type: 'slate', color: MatterColor.Blue, page: SlatePage, flowerPosition: "bottom-center", 
+  { type: 'fun', color: MatterTone.Black, bg: 'black', page: LetterPage, flowerPosition: "bottom-right", },
+  { type: 'slate', color: MatterColor.Blue, bg: 'blue', page: SlatePage, flowerPosition: "bottom-center", 
     text: <div className="full-stack text-headingHalf">
       <span>&nbsp;How long did it take</span>
       <span>for you to make it?</span>
@@ -88,8 +95,8 @@ const pages: PageInfo[] = [
     </div>,
     effect: crossEffect,
   },
-  { type: 'fun', color: MatterTone.Black, page: PaintPage, flowerPosition: "bottom-right", },
-  { type: 'slate', color: MatterTone.White, page: SlatePage, flowerPosition: "bottom-right", 
+  { type: 'fun', color: MatterTone.Black, bg: 'black', page: PaintPage, flowerPosition: "bottom-right", },
+  { type: 'slate', color: MatterTone.White, bg: 'black', page: SlatePage, flowerPosition: "bottom-right", 
     empty: true,
     effect: punchEffect,
   },

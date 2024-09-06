@@ -2,7 +2,7 @@ import { usePage } from '../Page/PageContext';
 import useState from 'react-usestateref';
 import { useEffect, useRef } from "react";
 import { useMatterContext } from "./MatterContext";
-import { textWidth, hasMouseSupport } from "../Utility";
+import { textWidth, hasMouse } from "../Utility";
 import { animate, stagger } from '@juliangarnierorg/anime-beta';
 
 let letterIndex = 0, letterSize = 0, letterPosition = { x: 0, y: 0 };
@@ -59,7 +59,7 @@ export default function IdeaField({ pageNumber }: { pageNumber: number }) {
     if (!inputRef.current) return;
     inputRef.current.placeholder = 'Type something';
     inputRef.current.style.pointerEvents = 'auto';
-    if (hasMouseSupport()) inputRef.current.focus();
+    if (hasMouse) inputRef.current.focus();
     setText('');  
   }
 

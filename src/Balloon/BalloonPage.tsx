@@ -98,16 +98,14 @@ export default function BalloonPage({ containerRef, pageNumber }: PageInterface)
       }
     })
 
-		const mc = instance.mouse();
-
-    Matter.Events.on(mc, 'mousedown', (e) => {
-      if (mc.body) {
-        clickedId = mc.body.id;
+    Matter.Events.on(instance.constraint, 'mousedown', (e) => {
+      if (instance.constraint.body) {
+        clickedId = instance.constraint.body.id;
         clickedPosition = { x: e.mouse.position.x, y: e.mouse.position.y };
       } else clickedId = -1;
     });
 
-    Matter.Events.on(mc, 'mouseup', (e) => {
+    Matter.Events.on(instance.constraint, 'mouseup', (e) => {
       if (clickedId != -1 && Math.abs(e.mouse.position.x - clickedPosition.x) < 15 && Math.abs(e.mouse.position.y - clickedPosition.y) < 15) {
         party.despawnBalloon(clickedId);
       }
@@ -164,7 +162,7 @@ export default function BalloonPage({ containerRef, pageNumber }: PageInterface)
         if (i < res.length) return;
         res.push(<div
           key={spawnedBalloonCount++}
-          className="party-brick text-headingHalf"
+          className="party-brick text-brick"
           ref={el => divelRef.current.push(el)}
           style={{
             top: randomTop(),

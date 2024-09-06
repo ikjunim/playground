@@ -37,8 +37,7 @@ export default function KineticPage({ containerRef, pageNumber }: PageInterface)
 
   const lineMemo = useMemo(() => {
     return <div ref={kineticRef} className="w-full h-[150%] max-h-[20000px] flex flex-col justify-around items-center kinetic-container">
-      {Array.from({ length: rows }).map((_, i) => <KineticWord
-        wordRef={wordRef} pivotRef={pivotRef} charRef={charRef} key={i}/>)}
+      {Array.from({ length: rows }).map((_, i) => <KineticWord wordRef={wordRef} pivotRef={pivotRef} charRef={charRef} key={i}/>)}
     </div>
   }, []);
 

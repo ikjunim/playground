@@ -69,12 +69,10 @@ export default function MatterContextProvider({ children, containerRef, active, 
       cloud!.applyForce(mousePosition.x, mousePosition.y);
     });
 
-		const mc = instance.mouse();
-
     window.addEventListener("resize", handleResize);
     window.addEventListener("mousemove", handleMouseMove);
 
-    Matter.Events.on(mc, 'mousedown', () => {
+    Matter.Events.on(instance.constraint, 'mousedown', () => {
       document.getElementById('idea-field')?.blur();
     });
 

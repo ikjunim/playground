@@ -22,7 +22,7 @@ export const moveY = (targets: (HTMLDivElement | HTMLSpanElement)[], distance: n
   return animate(targets, {
     translateY: (_, i: number | undefined) => {
       if (i === undefined) return 0;
-      return distance[i] + 'lvh';
+      return distance[i] + 'svh';
     },
     duration: duration/2, 
   })

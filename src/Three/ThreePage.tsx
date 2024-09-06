@@ -7,7 +7,7 @@ import { Text } from "troika-three-text";
 import MatterColor from "../Constants/MatterColor";
 import MatterTone from "../Constants/MatterTone";
 import { title, sub } from './text';
-import { umod, distribute } from "../Utility";
+import { umod, distribute, hasMouse, isMobile } from "../Utility";
 import * as THREE from 'three';
 import { SamplePoints } from "./points";
 import PageInterface from "../Page/PageInterface";
@@ -24,11 +24,6 @@ const count = title.length;
 let wheelAnimating = false, direction = "";
 
 let mousePosition = { x: 0, y: 0 };
-const handleMouseMove = (e: MouseEvent) => {
-  mousePosition.x = (e.clientX / window.innerWidth) * 2 - 1;
-  mousePosition.y = -(e.clientY / window.innerHeight) * 2 + 1;
-}
-window.addEventListener('mousemove', handleMouseMove);
 
 export default function ThreePage({ containerRef, pageNumber }: PageInterface) {
   const { active, ready } = usePage();
@@ -62,7 +57,8 @@ export default function ThreePage({ containerRef, pageNumber }: PageInterface) {
   }
 
   return <div className="w-full h-full">
-    <Canvas className="w-full h-full" camera={{position: [0, 0, 100]}}>
+    <Canvas camera={{position: [0, 0, 200]}} dpr={window.devicePixelRatio}>
+      <Responsive/>
       <TextWheel index={index} active={active} ready={ready} pageNumber={pageNumber} />
       <Cloud index={index} active={active} ready={ready} pageNumber={pageNumber} />
       <Background index={index} active={active} ready={ready} pageNumber={pageNumber} />
@@ -290,11 +286,22 @@ function Background({ index, active, ready, pageNumber }: { index: number, activ
   const backRefs = useRef([]);
   const { camera } = useThree();
 
-  useFrame(() => {
-    if (ready !== pageNumber && active !== pageNumber) return;
-    camera.position.x = -mousePosition.x * cameraMovement;
-    camera.position.y = -mousePosition.y * cameraMovement;
-  })
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      mousePosition.x = (e.clientX / window.innerWidth) * 2 - 1;
+      mousePosition.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    }
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  if (hasMouse) {
+    useFrame(() => {
+      if (ready !== pageNumber && active !== pageNumber) return;
+      camera.position.x = -mousePosition.x * cameraMovement;
+      camera.position.y = -mousePosition.y * cameraMovement;
+    })
+  }
 
   useEffect(() => {
     backRefs.current.forEach((p, i) => {
@@ -328,4 +335,12 @@ function Background({ index, active, ready, pageNumber }: { index: number, activ
   }, []);
 
   return background;
+}
+
+function Responsive() {
+  useThree(({ camera }) => {
+    camera.position.z = 4000/Math.min(Math.sqrt(window.innerWidth) + 5, 40);
+  });
+
+  return <></>;
 }

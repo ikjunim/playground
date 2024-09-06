@@ -12,6 +12,15 @@ export default function PaintPage({ containerRef, pageNumber }: PageInterface) {
   const paintGridRef = useRef<HTMLDivElement>(null);
   const shouldRender = useRef(false);
 
+  const handleResize = () => {
+    painter.resize();
+  }
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   useEffect(() => {
     if (active === pageNumber) {
       if (!onceRef.current) {

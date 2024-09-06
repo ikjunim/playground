@@ -52,11 +52,11 @@ export default function SlatePage({ text, inner, tutorial, empty, squareEffect, 
     return <div className="w-svw h-svh flex justify-center items-center pointer-events-auto text-slate" onClick={handleOnClick}>
       {
         !empty &&
-        <div className="party-brick no-select single-grid">
-          <div className="span-grid h-max w-max">
+        <div className="party-brick no-select">
+          <div className="h-max w-max relative">
             {text}
           </div>
-          <div ref={foldRef} className="span-grid overflow-hidden fold-contracted" onClick={handleFoldClick}>
+          <div ref={foldRef} className="h-full w-full absolute top-0 fold-contracted" onClick={handleFoldClick}>
             {inner}
           </div>
           {foldTutorial &&

@@ -2,6 +2,11 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+@font-face {
+  font-family: 'DM Serif';
+  src: url('/Font/DMSerifText-Regular.ttf') format('truetype');
+}
+
 :root {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -22,6 +27,12 @@ body {
   -webkit-overscroll-behavior: none;
   -ms-overscroll-behavior: none;
   overscroll-behavior: none;
+}
+
+.fake-grid {
+  background-position: -1px -1px, -1px -1px;
+  background-image: linear-gradient(#181717 2px, transparent 2px), linear-gradient(to right, #181717 2px, transparent 2px);
+  background-size: max(calc(100svw / var(--square-count)), calc(100svh / var(--square-count))) max(calc(100svw / var(--square-count)), calc(100svh / var(--square-count)));
 }
 
 .page-mask-1 {
@@ -82,7 +93,7 @@ body {
 }
 
 .page {
-  @apply absolute top-0 left-0 w-full h-full pointer-events-none bg-transparent font-mono text-heading text-black;
+  @apply absolute top-0 left-0 w-full h-full pointer-events-none font-mono text-heading text-black;
   z-index: -50;
 }
 
@@ -93,9 +104,9 @@ body {
 .triangle-down {
   width: 0;
   height: 0;
-  border-left: 1.5rem solid transparent;
-  border-right: 1.5rem solid transparent;
-  border-top: 2rem solid #181717;
+  border-left: 1rem solid transparent;
+  border-right: 1rem solid transparent;
+  border-top: 1.5rem solid #181717;
 }
 
 .party-brick {
@@ -209,16 +220,6 @@ body {
 .inline-svg {
   width: 0.9em;
   height: 0.9em;
-}
-
-.single-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr;
-}
-
-.span-grid {
-  grid-area: 1 / 1 / -1 / -1;
 }
 
 .full-stack {
@@ -364,8 +365,8 @@ body {
 
 .three-arrow-container {
   @apply absolute top-1/2 -translate-y-1/2 flex flex-col justify-center;
-  width: min(7.5svw, 7.5rem);
-  height: min(7.5svw, 7.5rem);
+  width: clamp(3rem, 5svw + 1rem, 10rem);
+  height: clamp(3rem, 5svw + 1rem, 10rem);
 }
 
 .three-arrow {
@@ -407,4 +408,8 @@ body {
   100% {
     transform: translateX(0%);
   }
+}
+
+.nav-ball {
+  clip-path: circle(45%);
 }

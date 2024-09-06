@@ -207,6 +207,21 @@ export class Painter {
       })
     }, 1000);
   }
+
+  resize() {
+    const width = this.container.clientWidth;
+    const gap = width/size;
+    const yOffset = 0.5;
+    const xOffset = 0.5;
+
+    for(var i = 0; i < size * size; i++) {
+      const pixel = this.pixels[i];
+      pixel.style.fontSize = 2.3*parseFloat(utils.get(this.container, 'font-size', 'px'));
+
+      pixel.x = (i % size) * gap + gap*xOffset;
+      pixel.y = Math.floor(i / size) * gap + gap*yOffset
+    }
+  }
 }
 
 //0x4d4d4d;
