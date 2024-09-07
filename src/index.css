@@ -37,46 +37,57 @@ body {
 
 .page-mask-1 {
   mask: url(#page-clip-1);
+  transform: translate3d(0, 0, 0);
 }
 
 .page-mask-2 {
   mask: url(#page-clip-2);
+  transform: translate3d(0, 0, 0);
 }
 
 .page-mask-3 {
   mask: url(#page-clip-3);
+  transform: translate3d(0, 0, 0);
 }
 
 .page-mask-4 {
   mask: url(#page-clip-4);
+  transform: translate3d(0, 0, 0);
 }
 
 .page-mask-5 {
   mask: url(#page-clip-5);
+  transform: translate3d(0, 0, 0);
 }
 
 .page-mask-6 {
   mask: url(#page-clip-6);
+  transform: translate3d(0, 0, 0);
 }
 
 .page-mask-7 {
   mask: url(#page-clip-7);
+  transform: translate3d(0, 0, 0);
 }
 
 .page-mask-8 {
   mask: url(#page-clip-8);
+  transform: translate3d(0, 0, 0);
 }
 
 .page-mask-9 {
   mask: url(#page-clip-9);
+  transform: translate3d(0, 0, 0);
 }
 
 .page-mask-10 {
   mask: url(#page-clip-10);
+  transform: translate3d(0, 0, 0);
 }
 
 .page-mask-11 {
   mask: url(#page-clip-11);
+  transform: translate3d(0, 0, 0);
 }
 
 .page-grid {
