@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { hasMouse } from "../Utility";
 import pages from "./PageInfo";
-import { animate, stagger, Animation, Timer, createTimer, spring } from "@juliangarnierorg/anime-beta";
+import { animate, stagger, createTimer, spring } from "@juliangarnierorg/anime-beta";
 
 const petalCount = 12;
 
@@ -15,7 +15,7 @@ const flowerPosition = pages.map(page => page.flowerPosition);
 let prevPosition = flowerPosition[0];
 
 interface FlowerProps {
-  squareEffect: (x: number, y: number, type: "next" | number) => Animation | Timer | null,
+  squareEffect: (x: number, y: number, type: "next" | number) => boolean,
   active: number,
   ready: number,
 }
@@ -143,6 +143,11 @@ export default function Flower({ squareEffect, active, ready }: FlowerProps) {
     });
   }, []);
 
+	const ballRef = useRef<HTMLDivElement>(null);
+  const ballMemo = useMemo(() => {
+    return <div ref={ballRef} className="absolute bottom-0 left-0 text-nav bg-white w-[1.5em] h-full nav-ball" style={{ transform: 'translateY(-5em)'}}/>
+  }, []);
+
   useEffect(() => {
     if (active >= 0 && lapped) {
       animate(navRef.current, {
@@ -151,6 +156,12 @@ export default function Flower({ squareEffect, active, ready }: FlowerProps) {
         delay: stagger(50),
         ease: 'outBack(2)'
       })
+			if (!ballRef.current) return;
+			animate(ballRef.current, {
+				translateY: 0,
+				duration: 600,
+				ease: 'outBack(2)'
+			})
       // localStorage.setItem('lapped', 'false');
     }
     if (!lapped && active === pages.length - 1) {
@@ -158,11 +169,6 @@ export default function Flower({ squareEffect, active, ready }: FlowerProps) {
       localStorage.setItem('lapped', 'true');
     }
   }, [active, lapped]);
-
-  const ballRef = useRef<HTMLDivElement>(null);
-  const ballMemo = useMemo(() => {
-    return <div ref={ballRef} className="absolute bottom-0 left-0 text-nav bg-white w-[1.5em] h-full nav-ball"/>
-  }, []);
 
   useEffect(() => {
     if (ready < 0) return;

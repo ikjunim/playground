@@ -7,7 +7,7 @@ import { Text } from "troika-three-text";
 import MatterColor from "../Constants/MatterColor";
 import MatterTone from "../Constants/MatterTone";
 import { title, sub } from './text';
-import { umod, distribute, hasMouse, isMobile } from "../Utility";
+import { umod, distribute, hasMouse } from "../Utility";
 import * as THREE from 'three';
 import { SamplePoints } from "./points";
 import PageInterface from "../Page/PageInterface";

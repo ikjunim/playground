@@ -8,7 +8,7 @@ import MatterTone from "../Constants/MatterTone";
 import { waterEffect, sunflowerEffect, shootEffect, crossEffect, paintEffect, punchEffect } from "./SquareEffect";
 import { Animation, Timeline } from "@juliangarnierorg/anime-beta";
 import MatterColor from "../Constants/MatterColor";
-import { isMobile } from '../Utility';
+import { isMobileOnly, isSafari } from "react-device-detect";
 
 interface PageInfo {
   type: 'fun' | 'slate';
@@ -20,7 +20,7 @@ interface PageInfo {
   tutorial?: boolean;
   empty?: boolean;
   effect?: (targets: HTMLDivElement[], x: number, y: number) => Animation | Timeline | null;
-  flowerPosition: "top-left" | "top-center" | "top-right" | "center-left" | "center-center" | "center-right" | "bottom-left" | "bottom-center" | "bottom-right";
+  flowerPosition: "bottom-left" | "bottom-center" | "bottom-right";
 }
 
 const pages: PageInfo[] = [
@@ -28,9 +28,17 @@ const pages: PageInfo[] = [
     text: <div className="full-stack items-center">
       <span className="text-heading">playground</span>
       <span className="text-headingHalf">ikjunim@gmail.com</span>
-      <span className="text-text">laptop is recommended</span>
+			{isMobileOnly ? <>
+				<span className="text-text">A laptop is recommended</span>
+			</> :
+				isSafari ? <>
+					<span className="text-text">A modern browser is recommended</span>
+					<span className="text-text">like Chrome or Firefox</span>
+				</> : 
+				<></>
+			}
     </div>,
-    inner: isMobile ? 
+    inner: (isMobileOnly || isSafari) ? 
       <div className="full-stack bg-black text-white items-center justify-center text-text">
         <span className="text-headingHalf">press here</span>
         <span className="text-headingHalf">again to hide</span>
@@ -56,7 +64,7 @@ const pages: PageInfo[] = [
     </div>,
     effect: shootEffect,
   },
-  { type: 'fun', color: MatterTone.White, bg: 'white', page: BalloonPage, flowerPosition: "top-right", },
+  { type: 'fun', color: MatterTone.White, bg: 'white', page: BalloonPage, flowerPosition: "bottom-right", },
   { type: 'slate', color: MatterColor.Yellow, bg: 'yellow', page: SlatePage, flowerPosition: "bottom-center",
     text: <div className="full-stack text-headingHalf">
       <span>&nbsp;what's the inspiration</span>
@@ -90,8 +98,8 @@ const pages: PageInfo[] = [
     </div>,
     inner: <div className="full-stack bg-blue text-white justify-center items-center">
       <span className="text-headingHalf">4 months</span>
-      <span className="text-text">this website took shorter than expected</span>
-      <span className="text-text">but the result was more than i expected</span>
+      <span className="text-text">from the concept to design and to</span>
+      <span className="text-text">self-learning everything involved</span>
     </div>,
     effect: crossEffect,
   },

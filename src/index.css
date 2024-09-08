@@ -36,58 +36,58 @@ body {
 }
 
 .page-mask-1 {
-  mask: url(#page-clip-1);
   transform: translate3d(0, 0, 0);
+	mask: url(#page-clip-1);
 }
 
 .page-mask-2 {
-  mask: url(#page-clip-2);
   transform: translate3d(0, 0, 0);
+  mask: url(#page-clip-2);
 }
 
 .page-mask-3 {
-  mask: url(#page-clip-3);
   transform: translate3d(0, 0, 0);
+  mask: url(#page-clip-3);
 }
 
 .page-mask-4 {
-  mask: url(#page-clip-4);
   transform: translate3d(0, 0, 0);
+  mask: url(#page-clip-4);
 }
 
 .page-mask-5 {
-  mask: url(#page-clip-5);
   transform: translate3d(0, 0, 0);
+  mask: url(#page-clip-5);
 }
 
 .page-mask-6 {
-  mask: url(#page-clip-6);
   transform: translate3d(0, 0, 0);
+  mask: url(#page-clip-6);
 }
 
 .page-mask-7 {
-  mask: url(#page-clip-7);
   transform: translate3d(0, 0, 0);
+  mask: url(#page-clip-7);
 }
 
 .page-mask-8 {
-  mask: url(#page-clip-8);
   transform: translate3d(0, 0, 0);
+  mask: url(#page-clip-8);
 }
 
 .page-mask-9 {
-  mask: url(#page-clip-9);
   transform: translate3d(0, 0, 0);
+  mask: url(#page-clip-9);
 }
 
 .page-mask-10 {
-  mask: url(#page-clip-10);
   transform: translate3d(0, 0, 0);
+  mask: url(#page-clip-10);
 }
 
 .page-mask-11 {
-  mask: url(#page-clip-11);
   transform: translate3d(0, 0, 0);
+  mask: url(#page-clip-11);
 }
 
 .page-grid {
@@ -125,30 +125,6 @@ body {
   -webkit-user-select: auto;
   user-select: auto;
   pointer-events: all;
-}
-
-.flower.top-left {
-  transform: translateX(calc(0% + var(--flower-margin))) translateY(calc(0% + var(--flower-margin)));
-}
-
-.flower.top-center {
-  transform: translateX(calc(50svw - 50%)) translateY(calc(0% + var(--flower-margin)));
-}
-
-.flower.top-right {
-  transform: translateX(calc(100svw - 100% - var(--flower-margin))) translateY(calc(0% + var(--flower-margin)));
-}
-
-.flower.center-left {
-  transform: translateX(calc(0% + var(--flower-margin))) translateY(calc(50svh - 50%));
-}
-
-.flower.center-center {
-  transform: translateX(calc(50svw - 50%)) translateY(calc(50svh - 50%));
-}
-
-.flower.center-right {
-  transform: translateX(calc(100svw - 100% - var(--flower-margin))) translateY(calc(50svh - 50%));
 }
 
 .flower.bottom-left {

@@ -1,16 +1,17 @@
 import { useEffect, useRef, useMemo, useCallback } from 'react';
 import { animate, Animation, createTimer, Timer } from '@juliangarnierorg/anime-beta';
 import useState from 'react-usestateref';
-import { chunk, furthestCorner, oneRandomArray } from '../Utility';
-import { holeEffect, rippleEffect } from './SquareEffect';
+import { chunk, furthestCorner, oneRandomArray, randomElement } from '../Utility';
+import { holeEffect, randomSlide, rippleEffect, timerEffect } from './SquareEffect';
 import { squareCount, setLength, indexOf } from './SquareUtility';
 import PageContext from './PageContext';
 import Flower from './Flower';
 import pages from './PageInfo';
 import RevealPage from '../Reveal/RevealPage';
-import { isMobile } from '../Utility';
+import { isMobileOnly, isSafari } from 'react-device-detect';
 
-const skipLoading = true;
+const optimizedDevice = isMobileOnly || isSafari;
+const skipLoading = false;
 const maxRadius = { value: 0 };
 var rippleAnime: Animation | null = null;
 var rippleTimer: Timer | null = null;
@@ -24,32 +25,48 @@ const maskPosition = {
 var needMaskResize = false;
 
 export default function PageManager() {
+	const [containerReady, setContainerReady] = useState(false);
   const [active, setActive, activeRef] = useState(-1);
   const [ready, setReady] = useState(-1);
   
   const backboardRef = useRef<HTMLDivElement>(null);
   const blockerRef = useRef<HTMLDivElement>(null);
+	const containerRef = useRef<(HTMLDivElement | null)[]>([]);
   const squareRef = useRef<HTMLDivElement[]>([]);
   const whiteMask = useRef<(SVGCircleElement | null)[]>([]);
   const blackMask = useRef<(SVGCircleElement | null)[]>([]);
 
   const ripple = useCallback((x: number, y: number, type: "next" | number) => {
     const target = type === "next" ? (activeRef.current + 1) % pages.length : type;
-    if (target === activeRef.current) return null;
+    if (target === activeRef.current) return false;
     const curBlack = blackMask.current[activeRef.current];
     const curWhite = whiteMask.current[target];
 
-    if (isMobile) {
+		if (isSafari) {
+			const rippleSlide = randomSlide(containerRef.current[activeRef.current]!, containerRef.current[target]!, 
+				(target === 6 || activeRef.current === 6) ? randomElement(['left', 'right']) : 'random', 
+				mobileRippleDuration*2, 
+				() => {
+				setReady(target);
+				blockerRef.current!.style.pointerEvents = 'all';
+			}, () => {
+				blockerRef.current!.style.pointerEvents = 'none';
+				setActive(target);
+				if (needMaskResize) {
+					needMaskResize = false;
+					handleResize();
+				}
+			});
+			return rippleSlide !== null;
+		} else if (isMobileOnly) {
       maskPosition.x = x;
       maskPosition.y = y;
       maskPosition.xPercent = x / window.innerWidth;
       maskPosition.yPercent = y / window.innerHeight;
       const dist = furthestCorner(maskPosition.x, maskPosition.y, window.innerWidth, window.innerHeight);
 
-      rippleTimer = createTimer({
-        duration: mobileRippleDuration,
-        frameRate: 60,
-        onBegin: () => {
+      rippleTimer = timerEffect(mobileRippleDuration,
+        () => {	
           setReady(target);
           curBlack?.setAttribute('cx', `${maskPosition.x}`);
           curBlack?.setAttribute('cy', `${maskPosition.y}`);
@@ -57,12 +74,12 @@ export default function PageManager() {
           curWhite?.setAttribute('cy', `${maskPosition.y}`);
           blockerRef.current!.style.pointerEvents = 'all';
         },
-        onUpdate: (timer: Timer) => {
+        (timer: Timer) => {
           const progress = timer.currentTime/mobileRippleDuration;
           curBlack?.setAttribute('r', `${dist * progress}`);
           curWhite?.setAttribute('r', `${dist * progress}`);
         },
-        onComplete: () => {
+        () => {
           curBlack?.setAttribute('r', '0');
           curWhite?.setAttribute('r', `${dist}`);
           whiteMask.current[activeRef.current]?.setAttribute('r', '0');
@@ -74,8 +91,8 @@ export default function PageManager() {
           }
           rippleTimer = null;
         }
-      })
-      return rippleTimer;
+			);
+			return rippleTimer !== null;
     } else {
       const index = indexOf(x, y);
       const rect = squareRef.current[index]!.getBoundingClientRect();
@@ -106,8 +123,8 @@ export default function PageManager() {
           handleResize();
         }
         rippleAnime = null;
-      });
-      return rippleAnime;
+      })
+			return rippleAnime !== null;
     }
   }, []);
 
@@ -115,7 +132,7 @@ export default function PageManager() {
     maxRadius.value = Math.sqrt(window.innerWidth ** 2 + window.innerHeight ** 2);
     const curWhite = whiteMask.current[activeRef.current];
 
-    if (isMobile && (!rippleTimer || rippleTimer.currentTime === mobileRippleDuration)) curWhite?.setAttribute('r', `${maxRadius.value}`);
+    if (optimizedDevice && (!rippleTimer || rippleTimer.currentTime === mobileRippleDuration)) curWhite?.setAttribute('r', `${maxRadius.value}`);
     else if (!rippleAnime || rippleAnime.completed) curWhite?.setAttribute('r', `${maxRadius.value}`);
     else needMaskResize = true;
 
@@ -125,7 +142,7 @@ export default function PageManager() {
   }
 
   const squareMemo = useMemo(() => {
-    if (isMobile) return null;
+    if (optimizedDevice) return null;
     return <div className="absolute max-h-[20000px] page-grid w-full h-full">
       {
         Array.from({length: squareCount * squareCount}, (_, i) => {
@@ -159,17 +176,19 @@ export default function PageManager() {
 
     if (!blockerRef.current) return;
     blockerRef.current.style.pointerEvents = 'all';
-    if (isMobile) {
-      ripple(0, 0, 0);
+    if (optimizedDevice) {
       createTimer({
-        duration: mobileRippleDuration,
-        onComplete: () => backboardRef.current!.style.display = 'none'
+        duration: 2000,
+        onComplete: () => {
+					ripple(0, 0, 0);
+					backboardRef.current!.style.display = 'none'
+				}
       })
     } else {
       if (!squareRef.current.length) return;
       const rows = chunk(squareRef.current, squareCount);
       for(let i = 0; i < rows.length; i++) {
-        const delays = oneRandomArray(squareCount).map((i) => i * (skipLoading ? 0 : 6000));
+        const delays = oneRandomArray(squareCount).map((i) => i * (skipLoading ? 0 : 5000));
         rows[i].forEach((el: HTMLDivElement, j: number, arr: any[]) => {
           animate(el, {
             translateX: '0svw',
@@ -215,25 +234,38 @@ export default function PageManager() {
     <PageContext.Provider value={{ active, ready }}>
       {
         pages.map((info, i) => {
-          const ref = useRef<HTMLDivElement>(null);
+					const ref = useRef<HTMLDivElement>(null);
+					var res = null;
           if (info.type === 'fun') {
-            return <div ref={ref} key={i} className={`page page-mask-${i+1} ${isMobile ? 'fake-grid bg-' + pages[i].bg : 'bg-transparent'}`}>
-              <info.page containerRef={ref} pageNumber={i + 1}/>
+            res = <div ref={ref} key={i} className={`page ${!isSafari ? `page-mask-${i+1}` : ''} ${optimizedDevice ? 'fake-grid bg-' + pages[i].bg : 'bg-transparent'}`}>
+							<info.page containerRef={(() => {
+								containerRef.current[i] = ref.current;
+								return ref;
+							})()} pageNumber={i + 1}/>
               {clipMemo[i]}
             </div>
           } else if (info.type === 'slate') {
-            return <div ref={ref} key={i} className={`page page-mask-${i+1} ${isMobile && i !== pages.length - 1 ? 'fake-grid bg-' + pages[i].bg : 'bg-transparent'}`}>
-              <info.page text={info.text ? info.text : ''} inner={info.inner ? info.inner : ''} 
+            res = <div ref={ref} key={i} className={`page ${!isSafari ? `page-mask-${i+1}` : ''} ${optimizedDevice && i !== pages.length - 1 ? 'fake-grid bg-' + pages[i].bg : 'bg-transparent'}`}>
+							<info.page text={info.text ? info.text : ''} inner={info.inner ? info.inner : ''} 
                 tutorial={info.tutorial ? info.tutorial : false}
                 empty={info.empty ? info.empty : false}
-                containerRef={ref} pageNumber={i + 1}
-                squareEffect={info.effect && !isMobile ?
+                containerRef={(() => {
+									containerRef.current[i] = ref.current;
+									return ref;
+								})()} pageNumber={i + 1}
+                squareEffect={info.effect && !optimizedDevice ?
                   (x: number, y: number) => info.effect && info.effect(squareRef.current, x, y) :
                   () => {}
                 }/>
               {clipMemo[i]}
             </div>
           }
+					if (i === pages.length - 1 && !containerReady) {
+						setTimeout(() => {
+							setContainerReady(true);
+						}, 0);
+					}
+					return res;
         })
       }
     </PageContext.Provider>

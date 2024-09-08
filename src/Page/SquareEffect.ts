@@ -1,8 +1,8 @@
 import { rowOf, colOf, ringOf, topdown, leftright, rightleft, bottomup, squareCount, indexOf, getVisible, block2, pick2 } from '../Page/SquareUtility';
-import { animate, stagger, createTimeline, Target, Animation, utils, createTimer } from '@juliangarnierorg/anime-beta';
+import { animate, stagger, Timer, createTimeline, Target, Animation, utils, createTimer } from '@juliangarnierorg/anime-beta';
 import MatterColor from '../Constants/MatterColor';
 import MatterTone from '../Constants/MatterTone';
-import { interpolateColor, rgbToHex, shuffle } from '../Utility';
+import { interpolateColor, randomElement, rgbToHex, shuffle } from '../Utility';
 
 //This is for the ripple effect
 const fastTransition = false;
@@ -328,4 +328,93 @@ export const punchEffectWrapper = (targets: HTMLDivElement[], index: number, ign
 
 export const punchEffect = (targets: HTMLDivElement[], x: number, y: number) => {
   return punchEffectWrapper(targets, indexOf(x, y));
+}
+
+export const timerEffect = (duration: number, onBegin: () => void, onUpdate: (timer: Timer) => void, onComplete: () => void) => {
+	if (animating) return null;
+	animating = true;
+
+	return createTimer({
+		duration,
+		frameRate: 60,
+		onBegin,
+		onUpdate,
+		onComplete: () => {
+			onComplete();
+			animatingFalse();
+		}
+	})
+}
+
+//For safari, the dumbass browser
+const slideOptions = [
+	{
+		hiding: {translateY: { from: '0%', to: '100%' }},
+		showing: {
+			translateX: 0,
+			translateY: { from: '-100%', to: '0%'},
+		}
+	},
+	{
+		hiding: {translateX: { from: '0%', to: '-100%'}},
+		showing: {
+			translateX: { from: '100%', to: '0%'},
+			translateY: 0,
+		}
+	},
+	{
+		hiding: {translateY: { from: '0%', to: '-100%'}},
+		showing: {
+			translateX: 0,
+			translateY: { from: '100%', to: '0%'},
+		}
+	},
+	{
+		hiding: {translateX: { from: '0%', to: '100%'}},
+		showing: {
+			translateX: { from: '-100%', to: '0%'},
+			translateY: 0,
+		}
+	}
+]
+
+const strToSlideOption = (str: 'top' | 'right' | 'bottom' | 'left') => {
+	switch(str) {
+		case 'top':
+			return slideOptions[0]
+		case 'right':
+			return slideOptions[1]
+		case 'bottom':
+			return slideOptions[2]
+		case 'left':
+			return slideOptions[3]
+	}
+}
+
+export const randomSlide = (hiding: HTMLDivElement, showing: HTMLDivElement, type: 'random' | 'top' | 'right' | 'bottom' | 'left',
+	 duration: number, onBegin: () => void, onComplete: () => void) => {
+	const options = type === 'random' ? randomElement(slideOptions) : strToSlideOption(type);
+	if (animating) return null;
+  animating = true;
+
+	if (hiding) {
+		animate(hiding, {
+			...options.hiding,
+			duration,
+			ease: 'inOutQuad',
+			onBegin,
+			onComplete,
+		})
+	}
+
+	return animate(showing, {
+		...options.showing,
+		duration,
+		ease: 'inOutQuad',
+		onBegin,
+		onComplete: () => {
+			onComplete();
+			animatingFalse();
+		}
+	})
 }

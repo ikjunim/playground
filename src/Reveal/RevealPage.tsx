@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef } from "react"
 import MatterColor from "../Constants/MatterColor";
 import signature from './Signature.webp';
 import { indexOf } from "../Page/SquareUtility";
-import { isMobile } from "../Utility";
+import { isMobileOnly, isSafari } from 'react-device-detect';
 
 interface RevealPageProps {
   active: number;
@@ -75,7 +75,7 @@ export default function RevealPage({ active, ready, pageNumber, immediateEffect 
   }, []);
 
   const noteMemo = useMemo(() => {
-    if (isMobile) return null;
+    if (isMobileOnly || isSafari) return null;
     return <div className="absolute top-0 w-full h-full flex justify-start items-end font-mono text-white text-tiny">
       <div className="w-max h-max">
         would you believe me <br/>
@@ -88,7 +88,7 @@ export default function RevealPage({ active, ready, pageNumber, immediateEffect 
 
   useEffect(() => {
     if (active === pageNumber) {
-      if (!madeWithRef.current || !madeByRef.current || isMobile) return;
+      if (!madeWithRef.current || !madeByRef.current || isMobileOnly || isSafari) return;
       const madeWithRect = madeWithRef.current.getBoundingClientRect();
       const madeByRect = madeByRef.current.getBoundingClientRect();
 
@@ -96,12 +96,12 @@ export default function RevealPage({ active, ready, pageNumber, immediateEffect 
         indexOf(madeWithRect.left + madeWithRect.width / 2, madeWithRect.top + madeWithRect.height / 2),
         indexOf(window.innerWidth / 2, window.innerHeight / 2),
         indexOf(madeByRect.left + madeByRect.width / 2, madeByRect.top + madeByRect.height / 2)
-      ], [0, 7, 4])
+      ], [0, 8, 4])
     } else {
     }
   }, [active]);
 
-  return <div className={`w-svw h-svh absolute top-0 overflow-hidden no-select bg-black ${isMobile && (ready === pageNumber || active === pageNumber) ? '' : (active === pageNumber ? '' : 'hidden')}`}>
+  return <div className={`w-svw h-svh absolute top-0 overflow-hidden no-select bg-black ${(isMobileOnly || isSafari) && (ready === pageNumber || active === pageNumber) ? '' : (active === pageNumber ? '' : 'hidden')}`}>
     {jawline}
     {endingCredits}
     {noteMemo}
