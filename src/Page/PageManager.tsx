@@ -188,7 +188,7 @@ export default function PageManager() {
       if (!squareRef.current.length) return;
       const rows = chunk(squareRef.current, squareCount);
       for(let i = 0; i < rows.length; i++) {
-        const delays = oneRandomArray(squareCount).map((i) => i * (skipLoading ? 0 : 5000));
+        const delays = oneRandomArray(squareCount).map((i) => i * (skipLoading ? 0 : 3000));
         rows[i].forEach((el: HTMLDivElement, j: number, arr: any[]) => {
           animate(el, {
             translateX: '0svw',
