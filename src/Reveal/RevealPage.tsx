@@ -96,7 +96,7 @@ export default function RevealPage({ active, ready, pageNumber, immediateEffect 
         indexOf(madeWithRect.left + madeWithRect.width / 2, madeWithRect.top + madeWithRect.height / 2),
         indexOf(window.innerWidth / 2, window.innerHeight / 2),
         indexOf(madeByRect.left + madeByRect.width / 2, madeByRect.top + madeByRect.height / 2)
-      ], [0, 8, 4])
+      ], [3, 7, 3])
     } else {
     }
   }, [active]);
