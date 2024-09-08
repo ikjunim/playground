@@ -2,7 +2,7 @@ import { useEffect, useRef, useMemo, useCallback } from 'react';
 import { animate, Animation, createTimer, Timer } from '@juliangarnierorg/anime-beta';
 import useState from 'react-usestateref';
 import { chunk, furthestCorner, oneRandomArray, randomElement } from '../Utility';
-import { holeEffect, randomSlide, rippleEffect, timerEffect } from './SquareEffect';
+import { holeEffect, randomSlide, rippleEffect } from './SquareEffect';
 import { squareCount, setLength, indexOf } from './SquareUtility';
 import PageContext from './PageContext';
 import Flower from './Flower';

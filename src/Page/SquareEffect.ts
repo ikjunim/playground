@@ -330,22 +330,6 @@ export const punchEffect = (targets: HTMLDivElement[], x: number, y: number) => 
   return punchEffectWrapper(targets, indexOf(x, y));
 }
 
-export const timerEffect = (duration: number, onBegin: () => void, onUpdate: (timer: Timer) => void, onComplete: () => void) => {
-	if (animating) return null;
-	animating = true;
-
-	return createTimer({
-		duration,
-		frameRate: 60,
-		onBegin,
-		onUpdate,
-		onComplete: () => {
-			onComplete();
-			animatingFalse();
-		}
-	})
-}
-
 //For safari, the dumbass browser
 const slideOptions = [
 	{
