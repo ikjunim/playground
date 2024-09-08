@@ -276,7 +276,7 @@ export const paintEffect = (targets: HTMLDivElement[], x: number, y: number) => 
   return anim;
 }
 
-const punchDuration = 150;
+const punchDuration = 100;
 export const holeEffect = (targets: HTMLDivElement[], indexes: number[], holes: number[]) => {
   if (animating) return null;
   animating = true;

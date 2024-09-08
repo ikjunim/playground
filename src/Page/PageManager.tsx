@@ -42,7 +42,7 @@ export default function PageManager() {
     const curBlack = blackMask.current[activeRef.current];
     const curWhite = whiteMask.current[target];
 
-		if (isSafari) {
+		if (optimizedDevice) {
 			const rippleSlide = randomSlide(containerRef.current[activeRef.current]!, containerRef.current[target]!, 
 				(target === 6 || activeRef.current === 6) ? randomElement(['left', 'right']) : 'random', 
 				mobileRippleDuration*2, 
@@ -58,42 +58,7 @@ export default function PageManager() {
 				}
 			});
 			return rippleSlide !== null;
-		} else if (isMobileOnly) {
-      maskPosition.x = x;
-      maskPosition.y = y;
-      maskPosition.xPercent = x / window.innerWidth;
-      maskPosition.yPercent = y / window.innerHeight;
-      const dist = furthestCorner(maskPosition.x, maskPosition.y, window.innerWidth, window.innerHeight);
-
-      rippleTimer = timerEffect(mobileRippleDuration,
-        () => {	
-          setReady(target);
-          curBlack?.setAttribute('cx', `${maskPosition.x}`);
-          curBlack?.setAttribute('cy', `${maskPosition.y}`);
-          curWhite?.setAttribute('cx', `${maskPosition.x}`);
-          curWhite?.setAttribute('cy', `${maskPosition.y}`);
-          blockerRef.current!.style.pointerEvents = 'all';
-        },
-        (timer: Timer) => {
-          const progress = timer.currentTime/mobileRippleDuration;
-          curBlack?.setAttribute('r', `${dist * progress}`);
-          curWhite?.setAttribute('r', `${dist * progress}`);
-        },
-        () => {
-          curBlack?.setAttribute('r', '0');
-          curWhite?.setAttribute('r', `${dist}`);
-          whiteMask.current[activeRef.current]?.setAttribute('r', '0');
-          setActive(target);
-          blockerRef.current!.style.pointerEvents = 'none';
-          if (needMaskResize) {
-            needMaskResize = false;
-            handleResize();
-          }
-          rippleTimer = null;
-        }
-			);
-			return rippleTimer !== null;
-    } else {
+		} else {
       const index = indexOf(x, y);
       const rect = squareRef.current[index]!.getBoundingClientRect();
       maskPosition.x = rect.left + rect.width/2;
@@ -237,7 +202,7 @@ export default function PageManager() {
 					const ref = useRef<HTMLDivElement>(null);
 					var res = null;
           if (info.type === 'fun') {
-            res = <div ref={ref} key={i} className={`page ${!isSafari ? `page-mask-${i+1}` : ''} ${optimizedDevice ? 'fake-grid bg-' + pages[i].bg : 'bg-transparent'}`}>
+            res = <div ref={ref} key={i} className={`page ${!optimizedDevice ? `page-mask-${i+1}` : ''} ${optimizedDevice ? 'fake-grid bg-' + pages[i].bg : 'bg-transparent'}`}>
 							<info.page containerRef={(() => {
 								containerRef.current[i] = ref.current;
 								return ref;
@@ -245,7 +210,7 @@ export default function PageManager() {
               {clipMemo[i]}
             </div>
           } else if (info.type === 'slate') {
-            res = <div ref={ref} key={i} className={`page ${!isSafari ? `page-mask-${i+1}` : ''} ${optimizedDevice && i !== pages.length - 1 ? 'fake-grid bg-' + pages[i].bg : 'bg-transparent'}`}>
+            res = <div ref={ref} key={i} className={`page ${!optimizedDevice ? `page-mask-${i+1}` : ''} ${optimizedDevice && i !== pages.length - 1 ? 'fake-grid bg-' + pages[i].bg : 'bg-transparent'}`}>
 							<info.page text={info.text ? info.text : ''} inner={info.inner ? info.inner : ''} 
                 tutorial={info.tutorial ? info.tutorial : false}
                 empty={info.empty ? info.empty : false}
