@@ -22,7 +22,7 @@ export default {
     },
     fontSize: {
       heading: 'clamp(0rem, 4svw + 1rem, 8rem)',
-      headingHalf: 'clamp(0rem, 2svw + 0.75rem, 4rem)',
+      headingHalf: 'clamp(0rem, 2svw + 1rem, 4rem)',
       brick: 'clamp(0rem, 3svw + 1rem, 4rem)',
       slate: 'clamp(0rem, 2svw + 0.5rem, 3rem)',
       text: 'clamp(0rem, 1svw + 0.5rem, 2rem)',
