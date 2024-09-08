@@ -1,5 +1,5 @@
 import { rowOf, colOf, ringOf, topdown, leftright, rightleft, bottomup, squareCount, indexOf, getVisible, block2, pick2 } from '../Page/SquareUtility';
-import { animate, stagger, Timer, createTimeline, Target, Animation, utils, createTimer } from '@juliangarnierorg/anime-beta';
+import { animate, stagger, createTimeline, Target, Animation, utils, createTimer } from '@juliangarnierorg/anime-beta';
 import MatterColor from '../Constants/MatterColor';
 import MatterTone from '../Constants/MatterTone';
 import { interpolateColor, randomElement, rgbToHex, shuffle } from '../Utility';
