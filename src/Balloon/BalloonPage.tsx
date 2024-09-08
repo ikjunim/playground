@@ -162,7 +162,7 @@ export default function BalloonPage({ containerRef, pageNumber }: PageInterface)
         if (i < res.length) return;
         res.push(<div
           key={spawnedBalloonCount++}
-          className="party-brick text-brick"
+          className="party-brick text-brick no-select"
           ref={el => divelRef.current.push(el)}
           style={{
             top: randomTop(),
