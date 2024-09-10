@@ -78,10 +78,10 @@ export default function RevealPage({ active, ready, pageNumber, immediateEffect 
     if (isMobileOnly || isSafari) return null;
     return <div className="absolute top-0 w-full h-full flex justify-start items-end font-mono text-white text-tiny">
       <div className="w-max h-max">
-        would you believe me <br/>
-        if i told you that <br/>
-        this is my second website <br/>
-        that i've ever made?
+        my favourite page <br/>
+        is the one <br/>
+        with the letters <br/>
+        what's yours?
       </div>
     </div>
   }, []);
