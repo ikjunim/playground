@@ -6,7 +6,7 @@ import PaintPage from "../Paint/PaintPage";
 import KineticPage from "../Kinetic/KineticPage";
 import MatterTone from "../Constants/MatterTone";
 import { waterEffect, sunflowerEffect, shootEffect, crossEffect, paintEffect, punchEffect } from "./SquareEffect";
-import { Animation, Timeline } from "@juliangarnierorg/anime-beta";
+import { JSAnimation, Timeline } from "@juliangarnierorg/anime-beta";
 import MatterColor from "../Constants/MatterColor";
 import { isMobileOnly, isSafari } from "react-device-detect";
 
@@ -19,7 +19,7 @@ interface PageInfo {
   inner?: JSX.Element;
   tutorial?: boolean;
   empty?: boolean;
-  effect?: (targets: HTMLDivElement[], x: number, y: number) => Animation | Timeline | null;
+  effect?: (targets: HTMLDivElement[], x: number, y: number) => JSAnimation | Timeline | null;
   flowerPosition: "bottom-left" | "bottom-center" | "bottom-right";
 }
 
