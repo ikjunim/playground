@@ -115,7 +115,7 @@ export default function PageManager() {
           return <div ref={el => {
             if (el) squareRef.current.push(el);
           }} key={i} id={`${i}-square`}
-          className="page-square flex items-center justify-center font-mono text-[70%] no-select text-black" 
+          className="page-square flex items-center justify-center font-mono text-text no-select text-black" 
 					style={{ transform: 'translateX(100svw)', color: 'rgba(0,0,0,0)' }}> {names[i%names.length]} </div>
         })
       }
