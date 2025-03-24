@@ -9,7 +9,7 @@ const introLines = [
   "Sorry for graduating early :(",
   "I really enjoyed teaching you all",
   "And hope you get the ATAR you deserve.",
-  "From your maths teacher, Juni",
+  "From your maths teacher, Ikjun.",
 ]
 
 // const maxCount = 16;
@@ -50,7 +50,7 @@ export default function BrickField({ show }: { show: boolean }) {
     })
   }, [show]);
 
-  return <div className="w-full h-full absolute top-0 text-black pl-[2svw] pt-[8svh] flex flex-col justify-start items-start">
+  return <div className="w-full h-full absolute top-0 text-black pl-[2svw] pt-[8svh] pb-[2svw] flex flex-col justify-start items-start">
     <div className="text-heading z-50">
       <div className="bg-transparent text-transparent pointer-events-none w-fit h-fit relative">
         1234567890
@@ -62,18 +62,30 @@ export default function BrickField({ show }: { show: boolean }) {
         />
       </div>
     </div>
-    {
-      introLines.map((line, i) => {
-        return <div key={i} className="flex text-text">
-          {
-            line.split('').map((char, j) => {
-              return <span key={j} ref={el => textRef.current.push(el)} style={{ opacity: 0, backgroundColor: 'black' }}>
-                {char === ' ' ? '\u00A0' : char}
-              </span> 
-            })
-          }
-        </div>
-      })
-    }
+		<div className="text-text">
+			{introLines[0].split('').map((char, j) => {
+				return <span key={j} ref={el => textRef.current.push(el)} style={{ opacity: 0, backgroundColor: 'black' }}>
+					{char === ' ' ? '\u00A0' : char}
+				</span>
+			})}
+		</div>
+		<div className="grow flex flex-col justify-end">
+			<div className="flex flex-col bg-white border-2 border-black">
+				{
+					introLines.map((line, i) => {
+						if (i == 0) return <></>
+						return <div key={i} className="text-text">
+							{
+								line.split('').map((char, j) => {
+									return <span key={j} ref={el => textRef.current.push(el)} style={{ opacity: 0, backgroundColor: 'black' }}>
+										{char === ' ' ? '\u00A0' : char}
+									</span> 
+								})
+							}
+						</div>
+					})
+				}
+			</div>
+		</div>
   </div>
 }

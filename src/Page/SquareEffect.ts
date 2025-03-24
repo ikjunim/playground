@@ -15,10 +15,11 @@ const squareSpeed = fastTransition ? 10 : squareDuration/4;
 let animating = false;
 let animatingFalse = () => animating = false;
 
-export const rippleEffect = (targets: HTMLDivElement[], index: number, 
-  color: string, onBegin: () => void, onUpdate: (anim: JSAnimation) => void, onComplete: () => void) => {
+export const rippleEffect = (targets: HTMLDivElement[], index: number, color: string, showText: boolean,
+	onBegin: () => void, onUpdate: (anim: JSAnimation) => void, onComplete: () => void) => {
   if (animating) return null;
   animating = true;
+	console.log(showText);
 
   const { visible, visibleCols, visibleIndex } = getVisible(targets, index, (d) => {
     utils.set(d, { 
@@ -27,6 +28,7 @@ export const rippleEffect = (targets: HTMLDivElement[], index: number,
       rotate: 0,
       translateX: 0,
       translateY: 0, 
+			color: 'rgba(0, 0, 0, 0)',
     });
   });
 
@@ -36,6 +38,7 @@ export const rippleEffect = (targets: HTMLDivElement[], index: number,
       { to: 1 }
     ],
     background: color,
+		color: showText ? 'rgba(0, 0, 0, 255)' : 'rgba(0, 0, 0, 0)',
     rotate: 0,
     translateX: 0,
     translateY: 0,

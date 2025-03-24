@@ -9,6 +9,7 @@ import Flower from './Flower';
 import pages from './PageInfo';
 import RevealPage from '../Reveal/RevealPage';
 import { isMobileOnly, isSafari } from 'react-device-detect';
+import names from './Names';
 
 const optimizedDevice = isMobileOnly || isSafari;
 const skipLoading = false;
@@ -67,7 +68,7 @@ export default function PageManager() {
       maskPosition.yPercent = maskPosition.y / window.innerHeight;
       const dist = furthestCorner(maskPosition.x, maskPosition.y, window.innerWidth, window.innerHeight);
 
-      rippleAnime = rippleEffect(squareRef.current, index, pages[target].color, () => {
+      rippleAnime = rippleEffect(squareRef.current, index, pages[target].color, target === 3, () => {
         setReady(target);
         curBlack?.setAttribute('cx', `${maskPosition.x}`);
         curBlack?.setAttribute('cy', `${maskPosition.y}`);
@@ -114,7 +115,8 @@ export default function PageManager() {
           return <div ref={el => {
             if (el) squareRef.current.push(el);
           }} key={i} id={`${i}-square`}
-          className="page-square" style={{ transform: 'translateX(100svw)' }}/>
+          className="page-square flex items-center justify-center font-mono text-[70%] no-select text-black" 
+					style={{ transform: 'translateX(100svw)', color: 'rgba(0,0,0,0)' }}> {names[i%names.length]} </div>
         })
       }
     </div>
@@ -188,6 +190,18 @@ export default function PageManager() {
       <span>Blocks...</span>
     </div>
   }, []);
+
+	// useEffect(() => {
+	// 	if (active === 4) {
+	// 		squareRef.current.forEach((el) => {
+	// 			el.style.color = 'black';
+	// 		})
+	// 	} else {
+	// 		squareRef.current.forEach((el) => {
+	// 			el.style.color = 'transparent';
+	// 		})
+	// 	}
+	// }, [active]);
 
   return <div className="w-svw h-svh relative overflow-hidden">
     <div ref={blockerRef} className='absolute top-0 w-full h-full bg-transparent z-[9999]'/>
