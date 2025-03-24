@@ -70,7 +70,7 @@ export default function BrickField({ show }: { show: boolean }) {
 			})}
 		</div>
 		<div className="grow flex flex-col justify-end">
-			<div className="flex flex-col bg-white border-2 border-black">
+			<div className="flex flex-col">
 				{
 					introLines.map((line, i) => {
 						if (i == 0) return <></>
