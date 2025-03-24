@@ -168,7 +168,7 @@ export class Painter {
           });
           if (i === this.textPixels.length - 1) {
             animate(this.pixels, {
-              tint: (_, i: number | undefined) => {
+              tint: (_: any, i: number | undefined) => {
                 if (i === undefined) return 0x4d4d4d;
                 if (this.pixels[i].scale.x === 1.2) return {
                   from: MatterTone.White,

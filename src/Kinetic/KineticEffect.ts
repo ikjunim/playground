@@ -2,7 +2,7 @@ import MatterColor from "../Constants/MatterColor";
 import MatterTone from "../Constants/MatterTone";
 import { randomInt, shuffle } from "../Utility";
 import { duration, word, rows } from "./KineticUtility";
-import { Animation, Timer, animate, createTimer, utils } from "@juliangarnierorg/anime-beta";
+import { JSAnimation, Timer, animate, createTimer, utils } from "@juliangarnierorg/anime-beta";
 
 const EMPTY = 'rgba(255, 255, 255, 0)';
 const cols = word.length;
@@ -20,7 +20,7 @@ export const moveLeft = (target: HTMLDivElement | null, val: string) => {
 
 export const moveY = (targets: (HTMLDivElement | HTMLSpanElement)[], distance: number[]) => {
   return animate(targets, {
-    translateY: (_, i: number | undefined) => {
+    translateY: (_: any, i: number | undefined) => {
       if (i === undefined) return 0;
       return distance[i] + 'svh';
     },
@@ -53,7 +53,7 @@ export const whiteStroke = (targets: (HTMLDivElement | HTMLSpanElement)[]) => {
 }
 
 var isBouncing = false;
-const bounces: Animation[] = [];
+const bounces: JSAnimation[] = [];
 const charByCol: HTMLSpanElement[][] = [];
 export const charBounce = (targets: HTMLSpanElement[], initialDrop: number, bounce: number, onComplete: () => void) => {
   if (isBouncing) return;
@@ -118,7 +118,7 @@ const shiftStrokeDown = (targets: (HTMLDivElement | HTMLSpanElement)[], col: num
   if (wrap) targets[col].style.webkitTextStrokeColor = prev;
 }
 
-var lastVerticalAnimation: Animation | null = null;
+var lastVerticalAnimation: JSAnimation | null = null;
 const shiftDown = (targets: (HTMLDivElement | HTMLSpanElement)[], col: number) => {
   if (flashing && lastSpawned[col] > 1 && Math.random() < lastSpawned[col]/10) {
     lastSpawned[col] = 0;
@@ -265,10 +265,10 @@ export const stopFlashing = () => {
   });
 }
 
-var ringAnimation: Animation | null = null;
+var ringAnimation: JSAnimation | null = null;
 export const pivotRing = (targets: HTMLDivElement[], onComplete: () => void) => {
   animate(targets, {
-    rotateY: (_, i: number | undefined) => {
+    rotateY: (_: any, i: number | undefined) => {
       if (i === undefined) return 0;
       return (i%cols)*360/cols;
     },
@@ -314,7 +314,7 @@ export const pivotLinear = (targets: HTMLDivElement[]) => {
 export const charFaceLinear = (targets: HTMLSpanElement[]) => {
   if (charRing.length === 0) return;
   animate(targets, {
-    translateX: (_, i: number | undefined) => {
+    translateX: (_: any, i: number | undefined) => {
       if (i === undefined) return 0;
       return charRing[i];
     },
@@ -348,7 +348,7 @@ export const stopSpin = (targets: HTMLDivElement[]) => {
 var sphereAnimation: any = null;
 export const startSphere = (targets: HTMLDivElement[]) => {
   return animate(targets, {
-    rotateZ: (_, i: number | undefined) => {
+    rotateZ: (_: any, i: number | undefined) => {
       if (i === undefined) return 0;
       return i/targets.length*180;
     },

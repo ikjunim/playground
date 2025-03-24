@@ -1,5 +1,5 @@
 import { rowOf, colOf, ringOf, topdown, leftright, rightleft, bottomup, squareCount, indexOf, getVisible, block2, pick2 } from '../Page/SquareUtility';
-import { animate, stagger, createTimeline, Target, Animation, utils, createTimer } from '@juliangarnierorg/anime-beta';
+import { animate, stagger, createTimeline, Target, JSAnimation, utils, createTimer } from '@juliangarnierorg/anime-beta';
 import MatterColor from '../Constants/MatterColor';
 import MatterTone from '../Constants/MatterTone';
 import { interpolateColor, randomElement, rgbToHex, shuffle } from '../Utility';
@@ -16,7 +16,7 @@ let animating = false;
 let animatingFalse = () => animating = false;
 
 export const rippleEffect = (targets: HTMLDivElement[], index: number, 
-  color: string, onBegin: () => void, onUpdate: (anim: Animation) => void, onComplete: () => void) => {
+  color: string, onBegin: () => void, onUpdate: (anim: JSAnimation) => void, onComplete: () => void) => {
   if (animating) return null;
   animating = true;
 
@@ -314,7 +314,7 @@ export const punchEffectWrapper = (targets: HTMLDivElement[], index: number, ign
   const anim = animate(indexes.map(i => targets[i]), {
     scale: (target: Target | undefined, i: number | undefined) => {
       if (i === undefined || target === undefined) return 0;
-      return Math.max(utils.get(target, 'scale') - 
+      return Math.max(parseFloat(utils.get(target, 'scale').toLocaleString()) - 
         (1 - Math.sqrt( (rowOf(indexes[i]) - rowOf(index)) ** 2 + (colOf(indexes[i]) - colOf(index)) ** 2 )/3), 
       0);
     },
