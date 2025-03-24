@@ -26,7 +26,7 @@ export default {
       brick: 'clamp(0rem, 3svw + 1rem, 4rem)',
       slate: 'clamp(0rem, 2svw + 0.5rem, 3rem)',
       text: 'clamp(0rem, 1svw + 0.5rem, 2rem)',
-      tiny: 'clamp(0rem, 1svw + 0.2rem, 1rem + 0.5svw)',
+      tiny: 'clamp(0rem, 0.5svw + 0.2rem, 1rem + 0.1svw)',
       idea: 'clamp(0rem, 2.5svw + 0.8rem, 4rem)',
       brick: 'clamp(0rem, min(3svw,3svh) + 1rem, 3rem)',
       nav: 'clamp(0rem, 2svw + 0.8rem, 3rem)',
