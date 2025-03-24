@@ -1,5 +1,5 @@
 import { useEffect, useRef, useMemo, useCallback } from 'react';
-import { animate, Animation, createTimer, Timer } from '@juliangarnierorg/anime-beta';
+import { animate, JSAnimation, createTimer, Timer } from '@juliangarnierorg/anime-beta';
 import useState from 'react-usestateref';
 import { chunk, furthestCorner, oneRandomArray, randomElement } from '../Utility';
 import { holeEffect, randomSlide, rippleEffect } from './SquareEffect';
@@ -13,7 +13,7 @@ import { isMobileOnly, isSafari } from 'react-device-detect';
 const optimizedDevice = isMobileOnly || isSafari;
 const skipLoading = false;
 const maxRadius = { value: 0 };
-var rippleAnime: Animation | null = null;
+var rippleAnime: JSAnimation | null = null;
 var rippleTimer: Timer | null = null;
 const mobileRippleDuration = 500;
 const maskPosition = {
