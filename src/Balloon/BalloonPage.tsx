@@ -10,9 +10,17 @@ import BrickField from "./BrickField";
 import { Brick } from "../Matter/Party";
 import { randomFloat } from "../Utility";
 import PageInterface from "../Page/PageInterface";
+import MatterColor from "../Constants/MatterColor";
+import { isMobileOnly, isSafari } from 'react-device-detect';
 
 const spikeCount = 100;
+const specialOffset = Math.floor(Math.random() * 100);
 var spawnedBalloonCount = 0;
+
+const specialNames = [
+  'Tanjeeb', 'Ashika', 'Arzo', 'Devansh', 'Ishaan', 'Ayeshah',
+  'Maria', 'Alishba', 'Janvi', 'Christelle', 'Shobhika', 'Nikita', 'Prateeksha', 'Emma'
+]
 
 const randomBalloonCount = () => {
   // return randomInt(5, 5);
@@ -43,7 +51,7 @@ export default function BalloonPage({ containerRef, pageNumber }: PageInterface)
   const boxContainerRef = useRef<HTMLDivElement>(null);
   const matterRef = useRef<HTMLDivElement>(null);
   const spikeRef = useRef<HTMLDivElement>(null);
-  const [text, setText, textRef] = useState(['pop', 'and', 'drag', 'the', 'balloons']);
+  const [text, setText, textRef] = useState((isMobileOnly || isSafari) ? ['pop', 'and', 'drag', 'the', 'balloons'] : [...specialNames]);
   const [boxel, setBoxel, boxelRef] = useState<(JSX.Element | null)[]>([]);
   const divelRef = useRef<(HTMLDivElement | null)[]>([]);
   const brickRef = useRef<(Brick | null)[]>([]);
@@ -166,7 +174,11 @@ export default function BalloonPage({ containerRef, pageNumber }: PageInterface)
           ref={el => divelRef.current.push(el)}
           style={{
             top: randomTop(),
-            left: randomLeft()
+            left: randomLeft(),
+            ...(specialNames.includes(text) ? {
+              background: MatterColor.Array()[(i + specialOffset)%4],
+              color: 'white'
+            } : {})
           }}
         >
           {text}

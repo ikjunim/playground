@@ -1,14 +1,19 @@
 import { useEffect, useRef } from "react";
 import { useSpawn } from "./BalloonPage";
 import { animate, stagger } from "@juliangarnierorg/anime-beta";
+import { isMobileOnly, isSafari } from "react-device-detect";
 
 const introLines = [
-  "im an extrovert but i dont",
-  "get invited to parties",
-  "so i made my own"
+  'Pop and drag the balloons!',
+  "To my students:",
+  "Sorry for graduating early :(",
+  "I really enjoyed teaching you all",
+  "And hope you get the ATAR you deserve.",
+  "From your maths teacher, Juni",
 ]
 
-const maxCount = 8;
+// const maxCount = 16;
+const maxCount = isMobileOnly || isSafari ? 6 : 14;
 
 export default function BrickField({ show }: { show: boolean }) {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -41,7 +46,7 @@ export default function BrickField({ show }: { show: boolean }) {
         { to: 'transparent' }
       ],
       duration: 200,
-      delay: stagger(80)
+      delay: stagger(50)
     })
   }, [show]);
 
