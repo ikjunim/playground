@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { hasMouse } from "../Utility";
 import pages from "./PageInfo";
-import { animate, stagger, createTimer, spring } from "@juliangarnierorg/anime-beta";
+import { animate, stagger, createTimer, Spring } from "@juliangarnierorg/anime-beta";
 
 const petalCount = 12;
 
@@ -174,7 +174,7 @@ export default function Flower({ squareEffect, active, ready }: FlowerProps) {
     if (ready < 0) return;
     animate(ballRef.current!, {
       translateX: `${(ready) * 1.5}em`,
-      ease: spring(1, 100, 11),
+      ease: new Spring(),
     })
   }, [ready]);
 
