@@ -55,7 +55,8 @@ const names = [
   "Harry",
   "Aarav",
   "Aditi",
-  "Nethra"
+  "Nethra",
+	"Flora"
 ];
 
 
